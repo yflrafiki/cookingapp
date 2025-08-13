@@ -1,3 +1,4 @@
+
 import type {Config} from 'tailwindcss';
 
 export default {
@@ -65,6 +66,10 @@ export default {
           border: 'hsl(var(--sidebar-border))',
           ring: 'hsl(var(--sidebar-ring))',
         },
+        'find-recipe': '#42ABD1',
+        'voice-search': '#E2B440',
+        'cook-mode': '#6EA31A',
+        'ai-suggest': '#9A298E',
       },
       borderRadius: {
         lg: 'var(--radius)',

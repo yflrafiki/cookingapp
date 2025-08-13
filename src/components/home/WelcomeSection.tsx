@@ -1,6 +1,6 @@
 
-import { Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Mic } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function WelcomeSection() {
   return (
@@ -11,12 +11,11 @@ export default function WelcomeSection() {
         What would you like to cook?
       </h1>
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-        <Input
-          type="search"
-          placeholder="Search for recipes, ingredients, or chefs..."
-          className="w-full rounded-md bg-secondary pl-10 pr-4 py-5 text-base"
+        <Textarea
+          placeholder="Tell me what you have and I'll show you what to cook"
+          className="w-full rounded-md bg-secondary pr-10 pl-4 py-3 text-base resize-none h-24"
         />
+        <Mic className="absolute right-3 bottom-3 h-5 w-5 text-muted-foreground" />
       </div>
     </section>
   );
