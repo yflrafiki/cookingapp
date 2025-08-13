@@ -1,6 +1,14 @@
+
 import type { LucideIcon } from "lucide-react";
 
 export interface Category {
+  title: string;
+  icon: LucideIcon;
+  backgroundColor: string;
+  href: string;
+}
+
+export interface Action {
   title: string;
   icon: LucideIcon;
   backgroundColor: string;

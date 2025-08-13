@@ -1,5 +1,6 @@
-import type { Category } from "@/types";
-import { Salad, Cake, Coffee, UtensilsCrossed } from "lucide-react";
+
+import type { Category, Action } from "@/types";
+import { Salad, Cake, Coffee, UtensilsCrossed, Search, Mic, ChefHat } from "lucide-react";
 
 export const CATEGORIES: Category[] = [
   {
@@ -25,5 +26,32 @@ export const CATEGORIES: Category[] = [
     icon: Cake,
     backgroundColor: "bg-purple-100 dark:bg-purple-900/30",
     href: "/recipes?category=dessert",
+  },
+];
+
+export const ACTIONS: Action[] = [
+  {
+    title: "Find Recipe",
+    icon: Search,
+    backgroundColor: "bg-cyan-200",
+    href: "/recipes",
+  },
+  {
+    title: "Voice Search",
+    icon: Mic,
+    backgroundColor: "bg-yellow-200",
+    href: "#",
+  },
+  {
+    title: "Cook Mode",
+    icon: ChefHat,
+    backgroundColor: "bg-green-200",
+    href: "/cook-mode",
+  },
+  {
+    title: "Find Recipe",
+    icon: Search,
+    backgroundColor: "bg-purple-200",
+    href: "/recipes",
   },
 ];
