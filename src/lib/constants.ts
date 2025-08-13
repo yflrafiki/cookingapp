@@ -33,25 +33,25 @@ export const ACTIONS: Action[] = [
   {
     title: "Find Recipe",
     icon: Search,
-    backgroundColor: "bg-cyan-200",
+    backgroundColor: "bg-cyan-100 dark:bg-cyan-900/30",
     href: "/recipes",
   },
   {
     title: "Voice Search",
     icon: Mic,
-    backgroundColor: "bg-yellow-200",
+    backgroundColor: "bg-yellow-100 dark:bg-yellow-900/30",
     href: "#",
   },
   {
     title: "Cook Mode",
     icon: ChefHat,
-    backgroundColor: "bg-green-200",
+    backgroundColor: "bg-green-100 dark:bg-green-900/30",
     href: "/cook-mode",
   },
   {
     title: "AI Suggestions",
     icon: Wand2,
-    backgroundColor: "bg-purple-200",
+    backgroundColor: "bg-purple-100 dark:bg-purple-900/30",
     href: "/suggest",
   },
 ];
