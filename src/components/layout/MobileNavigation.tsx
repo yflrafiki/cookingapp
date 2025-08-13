@@ -4,15 +4,24 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { navLinks } from "./nav-config";
 import { cn } from "@/lib/utils";
+import { Home, BookOpen, Wand2, PlusSquare, ChefHat } from "lucide-react";
+
+const mainNavLinks = [
+  { href: '/recipes', label: 'Recipes', icon: BookOpen },
+  { href: '/suggest', label: 'Suggest', icon: Wand2 },
+  { href: '/add-recipe', label: 'Add', icon: PlusSquare },
+  { href: '/cook-mode', label: 'Cook', icon: ChefHat },
+];
+
 
 export default function MobileNavigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background/95 backdrop-blur-sm md:hidden">
-      <div className="grid h-16 grid-cols-5 items-center">
-        {navLinks.map((link) => {
-          const isActive = pathname === link.href;
+    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background/95 backdrop-blur-sm">
+      <div className="grid h-16 grid-cols-4 items-center">
+        {mainNavLinks.map((link) => {
+          const isActive = pathname.startsWith(link.href);
           return (
             <Link
               key={link.href}
