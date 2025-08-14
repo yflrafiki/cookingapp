@@ -16,7 +16,7 @@ export default function AddRecipePage() {
           <Input id="title" placeholder="Title"   className="placeholder:text-[#5D5A5A73]" />
         </div>
         <div>
-          <Textarea id="notes" placeholder="Notes" rows={8} />
+          <Textarea id="notes" placeholder="Notes" rows={20} />
         </div>
       </form>
     </div>

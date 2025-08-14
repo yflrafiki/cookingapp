@@ -15,7 +15,7 @@ export default function WelcomeSection() {
           placeholder="Tell me what you have and I'll show you what to cook"
           className="w-full rounded-md bg-[#FFFEFE] pr-10 pl-4 py-3 text-base resize-none h-24"
         />
-        <Mic className="absolute right-3 bottom-3 h-5 w-5 text-muted-foreground" />
+        <Mic className="absolute left-3 bottom-3 h-5 w-5 text-muted-foreground" />
       </div>
     </section>
   );

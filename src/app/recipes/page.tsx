@@ -79,10 +79,10 @@ export default function RecipesPage() {
         </CardHeader>
 
        <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+        <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
         <Input
           type="search"
-          placeholder="Search for recipes..."
+          placeholder="What would you like to make?"
           className="w-full rounded-md bg-secondary pl-10 pr-4 py-5 text-base"
         />
       </div>
