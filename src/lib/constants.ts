@@ -33,7 +33,7 @@ export const ACTIONS: Action[] = [
   {
     title: "Find Recipe",
     icon: Search,
-    backgroundColor: "bg-find-recipe",
+    backgroundColor: "bg-[#42ABD1]",
     href: "/recipes",
   },
   {

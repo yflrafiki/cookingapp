@@ -2,22 +2,34 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { Home, Play, Utensils, Settings } from 'lucide-react';
+import { Home, Youtube, Utensils, Settings } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState, useEffect } from 'react';
 
 const mainNavLinks = [
   { href: '/', label: 'Home', icon: Home },
-  { href: '/recipes', label: 'Recipes', icon: Play },
-  { href: '/cook-mode', label: 'Cook', icon: Utensils },
+  { href: '/videos', label: 'Videos', icon: Youtube },
+  { href: '/add-recipe', label: 'Add Recipe', icon: Utensils },
   { href: '/settings', label: 'Settings', icon: Settings },
 ];
+
+function NavLink({ href, icon: Icon, isActive }: { href: string; icon: React.ElementType, isActive: boolean }) {
+  return (
+    <Link href={href} className="flex flex-col items-center justify-center gap-1 text-muted-foreground">
+      <Icon
+        className={cn('h-6 w-6', isActive && 'text-primary')}
+        fill={isActive ? 'currentColor' : 'none'}
+      />
+    </Link>
+  );
+}
 
 export default function MobileNavigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 h-20 border-t bg-background/95 backdrop-blur-sm md:left-1/2 md:-translate-x-1/2 md:max-w-md md:bottom-4 md:rounded-full md:border">
+    <nav className="fixed bottom-4 left-1/2 z-[100] h-16 w-[calc(100%-2rem)] -translate-x-1/2 rounded-2xl border border-border/50 bg-background shadow-lg md:max-w-xs">
       <div className="grid h-full grid-cols-4 items-center">
         {mainNavLinks.map((link) => {
           const isActive = pathname === link.href;
