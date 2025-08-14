@@ -11,7 +11,7 @@ const recipes: Recipe[] = [
     id: '1',
     title: 'Jollof Rice',
     description: 'A classic West African dish, rich in flavor and tradition.',
-    image: 'https://placehold.co/150x100.png',
+    image: '/jollof flavour.jpg',
     rating: 4.5,
     cookTime: '45 min',
     difficulty: 'Medium',
@@ -20,7 +20,7 @@ const recipes: Recipe[] = [
     id: '2',
     title: 'Jollof Rice',
     description: 'A classic West African dish, rich in flavor and tradition.',
-    image: 'https://placehold.co/150x100.png',
+    image: '/noddles.jpg',
     rating: 4.5,
     cookTime: '45 min',
     difficulty: 'Medium',
@@ -29,7 +29,7 @@ const recipes: Recipe[] = [
     id: '3',
     title: 'Jollof Rice',
     description: 'A classic West African dish, rich in flavor and tradition.',
-    image: 'https://placehold.co/150x100.png',
+    image: '/indai.jpg',
     rating: 4.5,
     cookTime: '45 min',
     difficulty: 'Medium',
@@ -38,7 +38,7 @@ const recipes: Recipe[] = [
     id: '4',
     title: 'Jollof Rice',
     description: 'A classic West African dish, rich in flavor and tradition.',
-    image: 'https://placehold.co/150x100.png',
+    image: '/jollof flavour.jpg',
     rating: 4.5,
     cookTime: '45 min',
     difficulty: 'Medium',
@@ -47,8 +47,8 @@ const recipes: Recipe[] = [
 
 const RecipeCard = ({ recipe }: { recipe: Recipe }) => (
   <Card className="overflow-hidden">
-    <CardContent className="p-0 flex">
-      <Image src={recipe.image} alt={recipe.title} width={150} height={100} className="object-cover" data-ai-hint="jollof rice"/>
+    <CardContent className="p-0 flex justify-between">
+      
       <div className="p-4 flex flex-col justify-between">
         <div>
           <CardTitle className="font-headline text-lg">{recipe.title}</CardTitle>
@@ -66,6 +66,7 @@ const RecipeCard = ({ recipe }: { recipe: Recipe }) => (
             </Button>
         </div>
       </div>
+      <Image src={recipe.image} alt={recipe.title} width={150} height={100} className="object-cover" data-ai-hint="jollof rice"/>
     </CardContent>
   </Card>
 );
