@@ -1,10 +1,14 @@
+'use client';
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import type { Recipe } from "@/types";
-import { Bookmark, Search, Star } from "lucide-react";
+import {  Search, ChevronLeft, CircleDot, XCircle } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { Separator } from "@radix-ui/react-separator";
 
 const recipes: Recipe[] = [
   {
@@ -12,82 +16,96 @@ const recipes: Recipe[] = [
     title: 'Jollof Rice',
     description: 'A classic West African dish, rich in flavor and tradition.',
     image: '/jollof flavour.jpg',
-    rating: 4.5,
-    cookTime: '45 min',
-    difficulty: 'Medium',
+    // rating: 4.5,
+    // cookTime: '45 min',
+    // difficulty: 'Medium',
+    ingredients: ['Tomatoes', 'Onions', 'Salt', 'Thyme'],
   },
   {
     id: '2',
     title: 'Jollof Rice',
     description: 'A classic West African dish, rich in flavor and tradition.',
     image: '/noddles.jpg',
-    rating: 4.5,
-    cookTime: '45 min',
-    difficulty: 'Medium',
+    // rating: 4.5,
+    // cookTime: '45 min',
+    // difficulty: 'Medium',
+    ingredients: ['Bay Leaves', 'Curry Powder', 'Garlic'],
   },
   {
     id: '3',
     title: 'Jollof Rice',
     description: 'A classic West African dish, rich in flavor and tradition.',
     image: '/indai.jpg',
-    rating: 4.5,
-    cookTime: '45 min',
-    difficulty: 'Medium',
+    // rating: 4.5,
+    // cookTime: '45 min',
+    // difficulty: 'Medium',
+    ingredients: ['Bay Leaves', 'Curry Powder', 'Garlic'],
   },
   {
     id: '4',
     title: 'Jollof Rice',
     description: 'A classic West African dish, rich in flavor and tradition.',
     image: '/jollof flavour.jpg',
-    rating: 4.5,
-    cookTime: '45 min',
-    difficulty: 'Medium',
+    // rating: 4.5,
+    // cookTime: '45 min',
+    // difficulty: 'Medium',
+    ingredients: ['Bay Leaves', 'Curry Powder', 'Garlic'],
   },
 ];
 
+const IngredientTag = ({ name }: { name: string }) => (
+  <div className="flex items-center gap-1.5 rounded-full bg-[#E6F4EA] px-3 py-1 text-xs text-[#5C8B12]/90 border border-primary/20">
+    <span>{name}</span>
+    <XCircle className="h-3 w-3 text-[#4CAF50]/50" />
+  </div>
+);
+
 const RecipeCard = ({ recipe }: { recipe: Recipe }) => (
-  <Card className="overflow-hidden">
-    <CardContent className="p-0 flex justify-between">
-      
-      <div className="p-4 flex flex-col justify-between">
-        <div>
-          <CardTitle className="font-headline text-lg">{recipe.title}</CardTitle>
-          <CardDescription className="text-xs mt-1">{recipe.description}</CardDescription>
-        </div>
-        <div className="flex items-center justify-between text-xs text-muted-foreground mt-2">
-            <div className="flex items-center gap-1">
-                <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                <span>{recipe.rating}</span>
-            </div>
-            <span>{recipe.cookTime}</span>
-            <span>{recipe.difficulty}</span>
-            <Button variant="ghost" size="icon" className="w-6 h-6">
-                <Bookmark className="w-4 h-4"/>
-            </Button>
-        </div>
+ <Card className="overflow-hidden border bg-card">
+    <CardContent className="p-4 flex gap-4">
+      <div className="flex-1 space-y-2">
+        <CardTitle className="font-headline text-lg">{recipe.title}</CardTitle>
+          <Separator />
+          <CardDescription className="text-sm text-muted-foreground line-clamp-3">
+          {recipe.description}
+        </CardDescription>
       </div>
-      <Image src={recipe.image} alt={recipe.title} width={150} height={100} className="object-cover" data-ai-hint="jollof rice"/>
+      <div className="flex-shrink-0">
+        <Image src={recipe.image} alt={recipe.title} width={80} height={80} className="w-30 h-20  rounded-lg object-cover" data-ai-hint="jollof rice" />
+      </div>
     </CardContent>
+      <CardFooter className="p-4 pt-0">
+       <div className="flex flex-wrap gap-2">
+          {recipe.ingredients?.map((ingredient) => (
+            <IngredientTag key={ingredient} name={ingredient} />
+          ))}
+        </div>
+    </CardFooter>
   </Card>
 );
 
 export default function RecipesPage() {
   return (
-    <div className="container mx-auto py-8 space-y-6">
-       <CardHeader className="p-0">
-          <CardTitle className="font-headline text-3xl">Recipes</CardTitle>
-        </CardHeader>
+    <div className="space-y-6">
+      <header className="flex items-center justify-between">
+        <h1 className="font-headline text-3xl">Recipes</h1>
+        <Button variant="ghost" size="icon" className="rounded-full bg-card shadow-sm border" asChild>
+          <Link href="/">
+            <ChevronLeft className="h-6 w-6" />
+          </Link>
+        </Button>
+      </header>
 
        <div className="relative">
-        <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
         <Input
           type="search"
           placeholder="What would you like to make?"
-          className="w-full rounded-md bg-secondary pl-10 pr-4 py-5 text-base"
+          className="w-full rounded-full bg-card pl-4 pr-10 py-5 text-base border-2 border-primary/20 focus:border-primary/40"
         />
+        <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
       </div>
 
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 gap-4">
         {recipes.map((recipe) => (
           <RecipeCard key={recipe.id} recipe={recipe} />
         ))}

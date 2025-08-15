@@ -20,8 +20,9 @@ export interface Recipe {
   title: string;
   description: string;
   image: string;
-  rating: number;
-  cookTime: string;
+  rating?: number;
+  cookTime?: string;
   difficulty?: 'Easy' | 'Medium' | 'Hard';
   layout?: 'list' | 'grid' | 'compact';
+  ingredients?: string[];
 }

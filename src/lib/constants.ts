@@ -1,6 +1,6 @@
 
 import type { Category, Action } from "@/types";
-import { Salad, Cake, Coffee, UtensilsCrossed, Search, Mic, ChefHat, Wand2 } from "lucide-react";
+import { Salad, Cake, Coffee, UtensilsCrossed, Search, Mic, ChefHat, FileText } from "lucide-react";
 
 export const CATEGORIES: Category[] = [
   {
@@ -49,9 +49,9 @@ export const ACTIONS: Action[] = [
     href: "/cook-mode",
   },
   {
-    title: "AI Suggest",
-    icon: Wand2,
+    title: "Notes",
+    icon: FileText,
     backgroundColor: "bg-ai-suggest",
-    href: "/suggest",
+    href: "/add-recipe",
   },
 ];
