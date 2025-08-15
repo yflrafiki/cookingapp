@@ -11,6 +11,12 @@ export default {
   ],
   theme: {
     extend: {
+       dropShadow: {
+        'find-recipe': '0 4px 6px #DFEFF5',
+        'voice-search': '0 4px 6px #F6F0DF',
+        'cook-mode': '0 4px 6px #ECF5DE',
+        'notes': '0 4px 6px #FCE1F9',
+      },
       fontFamily: {
         body: ['"PT Sans"', 'sans-serif'],
         headline: ['"Space Grotesk"', 'sans-serif'],

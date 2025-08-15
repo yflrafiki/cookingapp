@@ -1,6 +1,7 @@
 
 import { Mic } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
+import { Separator } from "../ui/separator";
 
 export default function WelcomeSection() {
   return (
@@ -16,6 +17,9 @@ export default function WelcomeSection() {
           className="w-full rounded-md bg-[#FFFEFE] pr-10 pl-4 py-3 text-base resize-none h-24"
         />
         <Mic className="absolute left-3 bottom-3 h-5 w-5 text-muted-foreground" />
+      </div>
+      <div className="px-[1.5rem]">
+        <Separator className="mt-10 bg-[#91A5714D]" />
       </div>
     </section>
   );

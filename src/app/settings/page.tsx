@@ -1,23 +1,27 @@
 
 'use client';
+import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { ChevronLeft, Text, Bell, Palette, Lock } from "lucide-react";
+import { ChevronLeft, Text, Bell, Palette, Lock, Contrast, Volume2, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Link from 'next/link';
+import { cn } from "@/lib/utils";
+import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
 
 interface SettingItemProps {
   icon: LucideIcon;
   title: string;
   description: string;
-  href?: string;
+  // href?: string;
+  action?: React.ReactNode;
 }
 
-const SettingItem = ({ icon: Icon, title, description, href = "#" }: SettingItemProps) => (
-  <Link href={href} className="flex items-center gap-4 py-4">
+const SettingItem = ({ icon: Icon, title, description, action }: SettingItemProps) => (
+  <div className="flex items-center gap-4 py-4">
     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary border border-primary/20">
       <Icon className="h-5 w-5" />
     </div>
@@ -25,20 +29,29 @@ const SettingItem = ({ icon: Icon, title, description, href = "#" }: SettingItem
       <p className="font-medium">{title}</p>
       <p className="text-sm text-muted-foreground">{description}</p>
     </div>
-  </Link>
+    {action && <div className="flex-shrink-0">{action}</div>}
+  </div>
+  
 );
 
-const accessibilitySettings: SettingItemProps[] = [
-  { icon: Text, title: "Large Text", description: "Increase text size for better readability" },
-];
+// const accessibilitySettings: SettingItemProps[] = [
+//   { icon: Text, title: "Large Text", description: "Increase text size for better readability" },
+// ];
 
-const otherSettings: SettingItemProps[] = [
-  { icon: Bell, title: "Notifications", description: "Manage how you receive alerts" },
-  { icon: Palette, title: "Appearance", description: "Customize colors and theme" },
-  { icon: Lock, title: "Privacy", description: "Control your data and security" },
-];
+// const otherSettings: SettingItemProps[] = [
+//   { icon: Bell, title: "Notifications", description: "Manage how you receive alerts" },
+//   { icon: Palette, title: "Appearance", description: "Customize colors and theme" },
+//   { icon: Lock, title: "Privacy", description: "Control your data and security" },
+// ];
 
 export default function SettingsPage() {
+   const [largeText, setLargeText] = useState(false);
+  const [textSize, setTextSize] = useState(33);
+  const [highContrast, setHighContrast] = useState(false);
+  const [voiceGuidance, setVoiceGuidance] = useState(false);
+  const [recipeUpdates, setRecipeUpdates] = useState(true);
+  const [cookingReminders, setCookingReminders] = useState(false);
+
   return (
     <div className="space-y-6">
       <header className="flex items-center justify-between">
@@ -57,23 +70,63 @@ export default function SettingsPage() {
         <div className="space-y-2">
           <h3 className="text-lg font-semibold">Accessibility</h3>
           <div className="flex flex-col divide-y divide-border">
-            {accessibilitySettings.map((item) => (
-              <SettingItem key={item.title} {...item} />
-            ))}
-             {/* Duplicating for visual representation from image */}
-            <SettingItem {...accessibilitySettings[0]} />
-            <SettingItem {...accessibilitySettings[0]} />
+             <div>
+              <SettingItem 
+                icon={Text} 
+                title="Large Text" 
+                description="Increase text size for better readability"
+                action={<Switch checked={largeText} onCheckedChange={setLargeText} />}
+              />
+              {largeText && (
+                <div className="pb-4 space-y-4">
+                  <Card className="bg-primary/10 border-primary/20">
+                    <CardContent className="p-4 text-center">
+                      <p 
+                        className={cn(
+                          'transition-all duration-300',
+                        )}
+                        style={{ fontSize: `${14 + (textSize / 100) * 10}px`}}
+                      >
+                        &quot;Add 2 cups of flour and mix gently until combined&quot;
+                      </p>
+                    </CardContent>
+                  </Card>
+                  <Slider value={[textSize]} onValueChange={(value) => setTextSize(value[0])} />
+                </div>
+              )}
+            </div>
+            <SettingItem 
+              icon={Contrast} 
+              title="High Contrast" 
+              description="Increase contrast for better readability"
+              action={<Switch checked={highContrast} onCheckedChange={setHighContrast} />}
+            />
+            <SettingItem 
+              icon={Volume2} 
+              title="Voice Guidance" 
+              description="Enable voice-over for navigation"
+              action={<Switch checked={voiceGuidance} onCheckedChange={setVoiceGuidance} />}
+            />
           </div>
         </div>
 
         <Separator />
 
         <div className="space-y-2">
-          <h3 className="text-lg font-semibold">Accessibility</h3>
+          <h3 className="text-lg font-semibold">Notifications</h3>
            <div className="flex flex-col divide-y divide-border">
-            {otherSettings.map((item) => (
-              <SettingItem key={item.title} {...item} />
-            ))}
+             <SettingItem 
+              icon={Bell} 
+              title="Recipe Updates" 
+              description="Get notified about new recipes"
+              action={<Switch checked={recipeUpdates} onCheckedChange={setRecipeUpdates} />}
+            />
+             <SettingItem 
+              icon={Sparkles} 
+              title="Cooking Reminders" 
+              description="Reminders for cooking steps"
+              action={<Switch checked={cookingReminders} onCheckedChange={setCookingReminders} />}
+            />
           </div>
         </div>
       </div>
