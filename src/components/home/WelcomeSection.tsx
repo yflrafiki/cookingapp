@@ -14,7 +14,7 @@ export default function WelcomeSection() {
       <div className="relative">
         <Textarea
           placeholder="Tell me what you have and I'll show you what to cook"
-          className="w-full rounded-md bg-[#FFFEFE] pr-10 pl-4 py-3 text-base resize-none h-24"
+          className="w-full rounded-md bg-[#FFFEFE] pr-10 pl-4 py-3 placeholder:text-[#5D5A5A73] text-[10px]  resize-none h-32"
         />
         <Mic className="absolute left-3 bottom-3 h-5 w-5 text-muted-foreground" />
       </div>

@@ -49,7 +49,7 @@ export default function AddRecipePage() {
   return (
     <div className="flex h-full flex-col space-y-6">
       <header className="flex items-center justify-between">
-        <h1 className="font-headline text-3xl">Add Recipe</h1>
+        <h1 className="font-headline text-[#333333] font-semibold text-[24px]">Add Recipe</h1>
         {isDirty ? (
           <Button variant="ghost" size="icon" className="rounded-full bg-card shadow-sm border" onClick={handleSave}>
             <Check className="h-6 w-6" />
@@ -87,7 +87,7 @@ export default function AddRecipePage() {
           <Textarea
             id="notes"
             placeholder="Your notes..."
-            className="h-full flex-1 resize-none rounded-b-none border-0 bg-transparent p-4 focus-visible:ring-0 min-h-[400px]"
+            className="h-full flex-1 resize-none rounded-b-none border-0 bg-transparent p-4 focus-visible:ring-0 min-h-[500px]"
             value={notes}
             onChange={handleInputChange}
           />

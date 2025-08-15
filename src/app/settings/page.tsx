@@ -56,8 +56,8 @@ export default function SettingsPage() {
     <div className="space-y-6">
       <header className="flex items-center justify-between">
         <div>
-          <h1 className="font-headline text-3xl">Settings</h1>
-          <p className="text-muted-foreground">Customize your CookingCompanion experience</p>
+          <h1 className="font-semibold text-[#333333] text-[24px]">Settings</h1>
+          <p className="text-[#5D5A5A] font-normal text-[12px]">Customize your CookingCompanion experience</p>
         </div>
         <Button variant="ghost" size="icon" className="rounded-full bg-card shadow-sm border" asChild>
           <Link href="/">
@@ -68,8 +68,8 @@ export default function SettingsPage() {
 
       <div className="space-y-6">
         <div className="space-y-2">
-          <h3 className="text-lg font-semibold">Accessibility</h3>
-          <div className="flex flex-col divide-y divide-border">
+          <h3 className="text-[16px] text-[#333333] font-semibold">Accessibility</h3>
+          <div className="flex flex-col text-[14px] font-normal text-[#000000] divide-y divide-border">
              <div>
               <SettingItem 
                 icon={Text} 
@@ -113,7 +113,7 @@ export default function SettingsPage() {
         <Separator />
 
         <div className="space-y-2">
-          <h3 className="text-lg font-semibold">Notifications</h3>
+          <h3 className="text-[16px] text-[#333333] font-semibold">Notifications</h3>
            <div className="flex flex-col divide-y divide-border">
              <SettingItem 
               icon={Bell} 
