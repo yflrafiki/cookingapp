@@ -100,7 +100,7 @@ export default function RecipesPage() {
         <Input
           type="search"
           placeholder="What would you like to make?"
-          className="w-full rounded-full bg-card pl-4 pr-10 py-5 text-base border-2 border-primary/20 focus:border-primary/40"
+          className="w-full rounded-full bg-card pl-4 pr-10 py-5 border-2 border-primary/20 focus:border-primary/40"
         />
         <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
       </div>

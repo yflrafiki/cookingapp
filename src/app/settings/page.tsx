@@ -1,6 +1,6 @@
 
 'use client';
-import { useState } from 'react';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,8 @@ import Link from 'next/link';
 import { cn } from "@/lib/utils";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
+import { useAppContext } from "@/context/AppContext";
+import { useState } from "react";
 
 interface SettingItemProps {
   icon: LucideIcon;
@@ -45,8 +47,9 @@ const SettingItem = ({ icon: Icon, title, description, action }: SettingItemProp
 // ];
 
 export default function SettingsPage() {
-   const [largeText, setLargeText] = useState(false);
-  const [textSize, setTextSize] = useState(33);
+  //  const [largeText, setLargeText] = useState(false);
+  // const [textSize, setTextSize] = useState(33);
+  const { largeText, textSize, setLargeText, setTextSize } = useAppContext();
   const [highContrast, setHighContrast] = useState(false);
   const [voiceGuidance, setVoiceGuidance] = useState(false);
   const [recipeUpdates, setRecipeUpdates] = useState(true);
@@ -85,7 +88,7 @@ export default function SettingsPage() {
                         className={cn(
                           'transition-all duration-300',
                         )}
-                        style={{ fontSize: `${14 + (textSize / 100) * 10}px`}}
+                        style={{ fontSize: `clamp(1rem, ${1 + (textSize / 100) * 0.5}rem, 2rem)`}}
                       >
                         &quot;Add 2 cups of flour and mix gently until combined&quot;
                       </p>

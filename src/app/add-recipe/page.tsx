@@ -65,7 +65,7 @@ export default function AddRecipePage() {
           <Input 
             id="title" 
             placeholder="Title" 
-            className="rounded-xl border-border/50 bg-card p-4 h-12 text-lg" 
+            className="rounded-xl border-border/50 bg-card p-4 h-12" 
             value={title}
             onChange={handleTitleChange}
           />
