@@ -8,6 +8,8 @@ interface AppContextType {
   setLargeText: (value: boolean) => void;
   textSize: number;
   setTextSize: (value: number) => void;
+  highContrast?: boolean;
+  setHighContrast?: (value: boolean) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -15,16 +17,21 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export function AppProvider({ children }: { children: ReactNode }) {
   const [largeText, setLargeTextState] = useState(false);
   const [textSize, setTextSizeState] = useState(33);
+  const [highContrast, setHighContrastState] = useState(false);
 
   useEffect(() => {
     const storedLargeText = localStorage.getItem('largeText');
     const storedTextSize = localStorage.getItem('textSize');
+    const storedHighContrast = localStorage.getItem('highContrast');
 
     if (storedLargeText) {
       setLargeTextState(JSON.parse(storedLargeText));
     }
     if (storedTextSize) {
       setTextSizeState(JSON.parse(storedTextSize));
+    }
+    if (storedHighContrast) {
+      setHighContrastState(JSON.parse(storedHighContrast));
     }
   }, []);
 
@@ -38,12 +45,19 @@ export function AppProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('textSize', JSON.stringify(value));
   };
 
+  const setHighContrast = (value: boolean) => {
+    setHighContrastState(value);
+    localStorage.setItem('highContrast', JSON.stringify(value));
+  };
+
   const contextValue = useMemo(() => ({
     largeText,
     setLargeText,
     textSize,
     setTextSize,
-  }), [largeText, textSize]);
+    highContrast,
+    setHighContrast
+  }), [largeText, textSize, highContrast]);
 
   return (
     <AppContext.Provider value={contextValue}>

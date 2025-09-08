@@ -7,6 +7,7 @@ import DesktopSidebar from "./DesktopSidebar";
 import { SidebarProvider } from "../ui/sidebar";
 import { usePathname } from 'next/navigation';
 import { cn } from "@/lib/utils";
+import { useAppContext } from "@/context/AppContext";
 
 
 interface ResponsiveLayoutProps {
@@ -16,10 +17,13 @@ interface ResponsiveLayoutProps {
 export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   const pathname = usePathname();
   const isVideoPage = pathname === '/videos';
+  const { largeText, textSize, highContrast } = useAppContext();
+
+  const dynamicTextStyle = largeText ? { fontSize: `clamp(1rem, ${1 + (textSize / 100) * 0.5}rem, 2rem)` } : {};
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full bg-background">
+      <div className={cn("flex min-h-screen w-full bg-background font-body antialiased", highContrast && 'high-contrast')} style={dynamicTextStyle}>
         <DesktopSidebar />
         <div className="flex flex-1 flex-col">
           <main className={cn(

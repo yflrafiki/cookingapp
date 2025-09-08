@@ -49,8 +49,7 @@ const SettingItem = ({ icon: Icon, title, description, action }: SettingItemProp
 export default function SettingsPage() {
   //  const [largeText, setLargeText] = useState(false);
   // const [textSize, setTextSize] = useState(33);
-  const { largeText, textSize, setLargeText, setTextSize } = useAppContext();
-  const [highContrast, setHighContrast] = useState(false);
+  const { largeText, setLargeText, textSize, setTextSize, highContrast, setHighContrast } = useAppContext();
   const [voiceGuidance, setVoiceGuidance] = useState(false);
   const [recipeUpdates, setRecipeUpdates] = useState(true);
   const [cookingReminders, setCookingReminders] = useState(false);
