@@ -19,6 +19,8 @@ export interface Action {
 }
 
 export interface Recipe {
+  dataAiHint: any;
+  steps: any;
   id: string;
   title: string;
   description: string;

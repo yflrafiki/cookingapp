@@ -4,7 +4,7 @@
 import { useState, useRef, ChangeEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Camera, Check, CheckSquare, ChevronLeft } from 'lucide-react';
+import { Camera, Check, CheckSquare, ChevronLeft, X } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -41,6 +41,13 @@ export default function AddRecipePage() {
       const imageUrls = files.map(file => URL.createObjectURL(file));
       setImagePreviews(prev => [...prev, ...imageUrls]);
     }
+  };
+
+   const handleRemoveImage = (indexToRemove: number) => {
+    if (!isDirty) setIsDirty(true);
+    // Clean up the object URL to prevent memory leaks
+    URL.revokeObjectURL(imagePreviews[indexToRemove]);
+    setImagePreviews(prev => prev.filter((_, index) => index !== indexToRemove));
   };
 
 
@@ -80,15 +87,24 @@ export default function AddRecipePage() {
             {imagePreviews.length > 0 && (
                 <div className="flex flex-wrap gap-2 pt-2">
                 {imagePreviews.map((src, index) => (
-                    <Image 
-                    key={index}
-                    src={src} 
-                    alt="Recipe preview" 
-                    width={100} 
-                    height={100} 
-                    className="rounded-lg object-cover"
-                    data-ai-hint="recipe image"
-                    />
+                   <div key={index} className="relative group">
+                        <Image 
+                            src={src} 
+                            alt="Recipe preview" 
+                            width={100} 
+                            height={100} 
+                            className="rounded-lg object-cover"
+                            data-ai-hint="recipe image"
+                        />
+                         <Button
+                            variant="destructive"
+                            size="icon"
+                            className="absolute top-1 right-1 h-6 w-6 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={() => handleRemoveImage(index)}
+                         >
+                            <X className="h-4 w-4" />
+                         </Button>
+                    </div>
                 ))}
                 </div>
             )}

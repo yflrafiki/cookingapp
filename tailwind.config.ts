@@ -18,8 +18,8 @@ export default {
         'notes': '0 4px 6px #FCE1F9',
       },
       fontFamily: {
-        body: ['"PT Sans"', 'sans-serif'],
-        headline: ['"Space Grotesk"', 'sans-serif'],
+        body: ['var(--font-body)', 'sans-serif'],
+        headline: ['var(--font-headline)', 'sans-serif'],
         code: ['monospace'],
       },
       colors: {
