@@ -9,8 +9,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Separator } from "@radix-ui/react-separator";
+import { useState, useMemo } from "react";
 
-const recipes: Recipe[] = [
+const allRecipes: Recipe[] = [
   {
     id: '1',
     title: 'Jollof Rice',
@@ -85,6 +86,21 @@ const RecipeCard = ({ recipe }: { recipe: Recipe }) => (
 );
 
 export default function RecipesPage() {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredRecipes = useMemo(() => {
+    if (!searchTerm) {
+      return allRecipes;
+    }
+    const lowercasedTerm = searchTerm.toLowerCase();
+    return allRecipes.filter(recipe =>
+      recipe.title.toLowerCase().includes(lowercasedTerm) ||
+      recipe.description.toLowerCase().includes(lowercasedTerm) ||
+      (recipe.ingredients && recipe.ingredients.some(ing => ing.toLowerCase().includes(lowercasedTerm)))
+
+    );
+  }, [searchTerm]);
+  
   return (
     <div className="space-y-6">
       <header className="flex items-center justify-between">
@@ -101,14 +117,21 @@ export default function RecipesPage() {
           type="search"
           placeholder="What would you like to make?"
           className="w-full rounded-full bg-card pl-4 pr-10 py-5 border-2 border-primary/20 focus:border-primary/40"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
         <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
       </div>
 
       <div className="grid grid-cols-1 gap-4">
-        {recipes.map((recipe) => (
-          <RecipeCard key={recipe.id} recipe={recipe} />
-        ))}
+        {filteredRecipes.length > 0 ? (
+          filteredRecipes.map((recipe) => (
+              <RecipeCard key={recipe.id} recipe={recipe} />
+          ))
+        
+        ): (
+          <p className="text-muted-foreground col-span-full text-center">No recipes found matching your search.</p>
+        )}
       </div>
     </div>
   );
