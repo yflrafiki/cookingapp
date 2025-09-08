@@ -12,7 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 const recipe = {
   title: 'Classic Tomato Soup',
   description: 'A creamy and delicious tomato soup, perfect for any season.',
-  image: 'https://picsum.photos/800/600',
+  image: 'https://plus.unsplash.com/premium_photo-1726754502577-ec156df402c9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Q2xhc3NpYyUyMFRvbWF0byUyMFNvdXB8ZW58MHx8MHx8fDA%3D',
   dataAiHint: 'tomato soup',
   steps: [
     "Heat olive oil in a large pot over medium heat. Add chopped onions and cook until softened, about 5 minutes.",
