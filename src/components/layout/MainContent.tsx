@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 export default function MainContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isVideoPage = pathname === '/videos';
-  const { largeText, textSize, highContrast } = useAppContext();
+  const { largeText, textSize, theme } = useAppContext();
 
   const dynamicTextStyle = largeText ? { fontSize: `clamp(1rem, ${1 + (textSize / 100) * 0.5}rem, 2rem)` } : {};
 
@@ -17,7 +17,7 @@ export default function MainContent({ children }: { children: React.ReactNode })
       className={cn(
         "flex-1 p-4 sm:p-6 lg:p-8 pb-28 md:pb-8",
         isVideoPage && "p-0 md:p-8",
-        highContrast && 'high-contrast'
+        theme === 'dark' && 'dark'
       )}
       style={dynamicTextStyle}
     >

@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-8 md:gap-12">
+    <div className="flex h-full flex-col gap-8 md:gap-12">
       <WelcomeSection />
       <Separator />
       <ActionGrid />

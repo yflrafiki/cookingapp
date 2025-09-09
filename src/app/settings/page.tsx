@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { ChevronLeft, Text, Bell, Palette, Lock, Contrast, Volume2, Sparkles } from "lucide-react";
+import { ChevronLeft, Text, Bell, Palette, Lock, Moon, Sun, Volume2, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Link from 'next/link';
 import { cn } from "@/lib/utils";
@@ -28,7 +28,7 @@ const SettingItem = ({ icon: Icon, title, description, action }: SettingItemProp
       <Icon className="h-5 w-5" />
     </div>
     <div className="flex-1">
-      <p className="font-medium">{title}</p>
+      <p className="font-medium ">{title}</p>
       <p className="text-sm text-muted-foreground">{description}</p>
     </div>
     {action && <div className="flex-shrink-0">{action}</div>}
@@ -49,7 +49,7 @@ const SettingItem = ({ icon: Icon, title, description, action }: SettingItemProp
 export default function SettingsPage() {
   //  const [largeText, setLargeText] = useState(false);
   // const [textSize, setTextSize] = useState(33);
-  const { largeText, setLargeText, textSize, setTextSize, highContrast, setHighContrast } = useAppContext();
+  const { largeText, setLargeText, textSize, setTextSize, theme, setTheme } = useAppContext();
   const [voiceGuidance, setVoiceGuidance] = useState(false);
   const [recipeUpdates, setRecipeUpdates] = useState(true);
   const [cookingReminders, setCookingReminders] = useState(false);
@@ -70,8 +70,8 @@ export default function SettingsPage() {
 
       <div className="space-y-6">
         <div className="space-y-2">
-          <h3 className="text-[16px] text-[#333333] font-semibold">Accessibility</h3>
-          <div className="flex flex-col text-[14px] font-normal text-[#000000] divide-y divide-border">
+          <h3 className=" text-[#333333] font-semibold">Accessibility</h3>
+          <div className="flex flex-col font-normal text-[#000000] divide-y divide-border">
              <div>
               <SettingItem 
                 icon={Text} 
@@ -98,10 +98,15 @@ export default function SettingsPage() {
               )}
             </div>
             <SettingItem 
-              icon={Contrast} 
-              title="High Contrast" 
-              description="Increase contrast for better readability"
-              action={<Switch checked={highContrast} onCheckedChange={setHighContrast} />}
+              icon={theme === 'dark' ? Sun : Moon} 
+              title="Dark Mode"
+              description="Switch between light and dark themes"
+              action={
+                <Switch 
+                  checked={theme === 'dark'} 
+                  onCheckedChange={(checked) => setTheme(checked ? 'dark' : 'light')} 
+                />
+              }
             />
             <SettingItem 
               icon={Volume2} 
@@ -115,7 +120,7 @@ export default function SettingsPage() {
         <Separator />
 
         <div className="space-y-2">
-          <h3 className="text-[16px] text-[#333333] font-semibold">Notifications</h3>
+          <h3 className="text-[#333333] font-semibold">Notifications</h3>
            <div className="flex flex-col divide-y divide-border">
              <SettingItem 
               icon={Bell} 

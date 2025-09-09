@@ -161,10 +161,10 @@ export default function WelcomeSection() {
         <br />
         What would you like to cook?
       </h1>
-      <div className="relative">
+      <div className="relative h-[10rem] mt-[2rem]">
         <Textarea
           placeholder="Tell me what you have and I'll show you what to cook"
-          className="w-full rounded-2xl bg-[#FFFEFE] pr-10 pl-4 py-3 resize-none min-h-[6rem]"
+          className="w-full h-full rounded-2xl bg-[#FFFEFE] pr-10 pl-4 py-3 resize-none min-h-[6rem]"
           value={text}
           onChange={(e) => setText(e.target.value)}
         />

@@ -16,12 +16,12 @@ interface ResponsiveLayoutProps {
 export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   const pathname = usePathname();
   const isVideoPage = pathname === '/videos';
-  const { largeText, textSize, highContrast } = useAppContext();
+  const { largeText, textSize, theme } = useAppContext();
 
   const dynamicTextStyle = largeText ? { fontSize: `clamp(1rem, ${1 + (textSize / 100) * 0.5}rem, 2rem)` } : {};
 
   return (
-      <div className={cn("flex min-h-screen w-full bg-background font-body antialiased", highContrast && 'high-contrast')} style={dynamicTextStyle}>
+      <div className={cn("flex min-h-screen w-full bg-background font-body antialiased", theme === 'dark' && 'dark')} style={dynamicTextStyle}>
         <DesktopSidebar />
         <div className="flex flex-1 flex-col min-w-0">
           <main className={cn(
