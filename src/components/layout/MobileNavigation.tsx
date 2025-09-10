@@ -38,7 +38,7 @@ export default function MobileNavigation() {
   }, []);
 
   return (
-    <nav className="fixed bottom-3 left-1/2  z-[100] h-[5rem] w-[calc(100%-2rem)] -translate-x-1/2 rounded-2xl border border-border/50 bg-background shadow-lg md:hidden">
+    <nav className="fixed bottom-4 left-1/2  z-[100] h-[5rem] w-[calc(100%-1rem)] -translate-x-1/2 rounded-[15px] border border-border/50 bg-background shadow-lg md:hidden">
       <div className="flex h-full items-stretch justify-center px-1">
         {mainNavLinks.map((link) => (
           <NavLink

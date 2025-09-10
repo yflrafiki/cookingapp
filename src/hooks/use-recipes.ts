@@ -13,7 +13,7 @@ export function useCreateRecipe() {
 }
 
 export function useUpdateRecipe() {
-  return useCallback(async (id: number, updates: Partial<Recipe>): Promise<Recipe> => {
+  return useCallback(async (id: string, updates: Partial<Recipe>): Promise<Recipe> => {
     const db = await initDB();
     const existing = await db.get(STORE_NAME, id) as Recipe | undefined;
     if (!existing) throw new Error('Recipe not found');
@@ -25,7 +25,7 @@ export function useUpdateRecipe() {
 
 
 export function useGetRecipe() {
-  return useCallback(async (id: number): Promise<Recipe | undefined> => {
+  return useCallback(async (id: string): Promise<Recipe | undefined> => {
     const db = await initDB();
     return await db.get(STORE_NAME, id);
   }, []);
@@ -36,5 +36,11 @@ export function useListRecipes() {
   return useCallback(async (): Promise<Recipe[]> => {
     const db = await initDB();
     return await db.getAll(STORE_NAME);
+  }, []);
+}
+export function useDeleteRecipe() {
+  return useCallback(async (id: string): Promise<void> => {
+    const db = await initDB();
+    await db.delete(STORE_NAME, id);
   }, []);
 }

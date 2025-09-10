@@ -25,7 +25,7 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
         <DesktopSidebar />
         <div className="flex flex-1 flex-col min-w-0">
           <main className={cn(
-            "flex-1 p-4 sm:p-6 lg:p-8 pb-28 md:pb-8",
+            "flex-1 px-2 py-4 sm:p-4 lg:p-8 pb-28 md:pb-8",
              isVideoPage && "p-0 md:p-8" 
           )}>
             <div className={cn(

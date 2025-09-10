@@ -58,10 +58,10 @@ export default function AddRecipePage() {
       setIsLoading(true);
 
       const newRecipe: Recipe = {
-      id: String(Date.now()), // Simple unique id
+      id: String(Date.now()), 
       title,
       description: notes,
-      image: image || `https://picsum.photos`, // Use selected image or a new placeholder
+      image: image || ``, 
       ingredients: [],
       steps: [],
       dataAiHint: title.toLowerCase().split(' ').slice(0, 2).join(' '),
@@ -74,7 +74,7 @@ export default function AddRecipePage() {
       description: `${title} has been added to your collection.`,
     });
 
-    router.push('/recipes');
+    router.push('/my-recipes');
 
 
     }
@@ -119,9 +119,9 @@ export default function AddRecipePage() {
   return (
     <div className="flex h-full flex-col space-y-4">
       <header className="flex items-center justify-between">
-        <h1 className="font-headline text-3xl">Add Recipe</h1>
+        <h1 className="font-headline text-3xl text-foreground">Add Recipe</h1>
         <Button variant="ghost" size="icon" className="rounded-full bg-card shadow-sm border" asChild>
-          <Link href="/recipes">
+          <Link href="/my-recipes">
             <ChevronLeft className="h-6 w-6" />
           </Link>
         </Button>
@@ -131,7 +131,7 @@ export default function AddRecipePage() {
         <Input 
           id="title" 
           placeholder="Title" 
-          className="border-border/50 bg-card p-5 rounded-[5px] h-12" 
+          className="border-border/50 bg-card p-5 rounded-[5px] h-12 text-foreground" 
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
