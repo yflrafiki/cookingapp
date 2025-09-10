@@ -1,47 +1,70 @@
 
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { useState, useMemo } from 'react';
+import { Card, CardContent, CardDescription, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { ChefHat, ArrowLeft } from "lucide-react";
+import { ChefHat, ArrowLeft, Search } from "lucide-react";
 import { useAppContext } from "@/context/AppContext";
 import { Skeleton } from '@/components/ui/skeleton';
 import type { Recipe } from '@/types';
 import Link from 'next/link';
+import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
 
 function CookModeLoader() {
     return (
         <div className="space-y-6">
-            <div className="flex items-center justify-between">
-                 <Skeleton className="h-10 w-48" />
-                 <Skeleton className="h-10 w-10 rounded-full" />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[...Array(3)].map((_, i) => (
-                    <Card key={i}>
-                        <CardHeader>
-                             <Skeleton className="w-full h-40" />
-                        </CardHeader>
-                        <CardContent className="space-y-2">
-                             <Skeleton className="h-6 w-3/4" />
-                             <Skeleton className="h-4 w-full" />
-                             <Skeleton className="h-4 w-4/5" />
-                             <Skeleton className="h-10 w-full mt-2" />
-                        </CardContent>
-                    </Card>
+            <header className="flex items-center justify-between">
+                <Skeleton className="h-8 w-48" />
+                <div className="flex items-center gap-2">
+                    <Skeleton className="h-10 w-10 rounded-full" />
+                </div>
+            </header>
+            <div className="h-12 w-full bg-muted rounded-full animate-pulse" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[...Array(4)].map((_, i) => (
+                    <div key={i} className="h-40 bg-muted rounded-lg animate-pulse" />
                 ))}
             </div>
         </div>
-    )
+    );
 }
 
+const RecipeCard = ({ recipe }: { recipe: Recipe }) => (
+  <Card className="overflow-hidden border bg-card h-full hover:shadow-lg transition-shadow flex flex-col">
+    <Link href={`/cook-mode/${recipe.id}`} className="block h-full flex flex-col">
+      <CardContent className="p-4 flex gap-4 flex-grow">
+        <div className="flex-1 space-y-2">
+          <CardTitle className="font-headline text-lg">{recipe.title}</CardTitle>
+          <Separator />
+          <CardDescription className="text-sm text-muted-foreground line-clamp-3 flex-grow">
+            {recipe.description}
+          </CardDescription>
+        </div>
+        <div className="flex-shrink-0">
+          <Image src={recipe.image} alt={recipe.title} width={80} height={80} className="w-20 h-20 rounded-lg object-cover" data-ai-hint={recipe.dataAiHint || 'food'} />
+        </div>
+      </CardContent>
+    </Link>
+  </Card>
+);
 
 export default function CookModePage() {
   const { recipes, isLoading } = useAppContext();
-  const router = useRouter();
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredRecipes = useMemo(() => {
+    if (!searchTerm) {
+      return recipes;
+    }
+    const lowercasedTerm = searchTerm.toLowerCase();
+    return recipes.filter(recipe =>
+      recipe.title.toLowerCase().includes(lowercasedTerm) ||
+      (recipe.description && recipe.description.toLowerCase().includes(lowercasedTerm))
+    );
+  }, [searchTerm, recipes]);
 
   if (isLoading) {
     return <CookModeLoader />;
@@ -49,33 +72,32 @@ export default function CookModePage() {
 
   return (
     <div className="space-y-6">
-       <header className="flex items-center justify-between">
+      <header className="flex items-center justify-between">
         <div>
-            <h1 className="font-headline text-3xl">Cook Mode</h1>
-            <p className="text-muted-foreground">Choose a recipe to start your guided cooking session.</p>
+          <h1 className="font-headline text-3xl">Cook Mode</h1>
+          <p className="text-muted-foreground">Choose a recipe to start your guided cooking session.</p>
         </div>
         <Button variant="ghost" size="icon" className="rounded-full bg-card shadow-sm border" asChild>
-          <Link href="/recipes">
+          <Link href="/">
             <ArrowLeft className="h-6 w-6" />
           </Link>
         </Button>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {recipes.map((recipe) => (
-          <Card key={recipe.id} className="flex flex-col">
-            <CardHeader className="p-0">
-              <Image src={recipe.image} alt={recipe.title} width={400} height={200} className="w-full h-40 object-cover rounded-t-lg" data-ai-hint={recipe.dataAiHint} />
-            </CardHeader>
-            <CardContent className="p-4 flex-grow flex flex-col">
-              <CardTitle className="font-headline text-xl">{recipe.title}</CardTitle>
-              <CardDescription className="mt-2 text-muted-foreground flex-grow">{recipe.description}</CardDescription>
-              <Button onClick={() => router.push(`/cook-mode/${recipe.id}`)} className="w-full mt-4">
-                <ChefHat className="mr-2 h-4 w-4" />
-                Start Cooking
-              </Button>
-            </CardContent>
-          </Card>
+      <div className="relative">
+        <Input
+          type="search"
+          placeholder="What would you like to make?"
+          className="w-full rounded-full bg-card pl-4 pr-10 py-5 border-2 border-primary/20 focus:border-primary/40"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {filteredRecipes.map((recipe) => (
+          <RecipeCard key={recipe.id} recipe={recipe} />
         ))}
       </div>
     </div>
