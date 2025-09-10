@@ -1,123 +1,85 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import type { Recipe } from "@/types";
-import {  Search, ChevronLeft, CircleDot, XCircle } from "lucide-react";
+import { Search, ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { Separator } from "@radix-ui/react-separator";
+import { Separator } from "@/components/ui/separator";
 import { useState, useMemo } from "react";
-
-const allRecipes: Recipe[] = [
-  {
-    id: '1',
-    title: 'Jollof Rice',
-    description: 'A classic West African dish, rich in flavor and tradition.',
-    image: '/jollof flavour.jpg',
-    dataAiHint: 'jollof rice',
-    // rating: 4.5,
-    // cookTime: '45 min',
-    // difficulty: 'Medium',
-    ingredients: ['Tomatoes', 'Onions', 'Salt', 'Thyme'],
-    steps: [],
-  },
-  {
-    id: '2',
-    title: 'Jollof Rice',
-    description: 'A classic West African dish, rich in flavor and tradition.',
-    image: '/noddles.jpg',
-    dataAiHint: 'jollof rice',
-    // rating: 4.5,
-    // cookTime: '45 min',
-    // difficulty: 'Medium',
-    ingredients: ['Bay Leaves', 'Curry Powder', 'Garlic'],
-    steps: [],
-  },
-  {
-    id: '3',
-    title: 'Jollof Rice',
-    description: 'A classic West African dish, rich in flavor and tradition.',
-    image: '/indai.jpg',
-    dataAiHint: 'jollof rice',
-    // rating: 4.5,
-    // cookTime: '45 min',
-    // difficulty: 'Medium',
-    ingredients: ['Bay Leaves', 'Curry Powder', 'Garlic'],
-    steps: [],
-  },
-  {
-    id: '4',
-    title: 'Jollof Rice',
-    description: 'A classic West African dish, rich in flavor and tradition.',
-    image: '/jollof flavour.jpg',
-    dataAiHint: 'jollof rice',
-    // rating: 4.5,
-    // cookTime: '45 min',
-    // difficulty: 'Medium',
-    ingredients: ['Bay Leaves', 'Curry Powder', 'Garlic'],
-    steps: [],
-  },
-];
-
-const IngredientTag = ({ name }: { name: string }) => (
-  <div className="flex items-center gap-1.5 rounded-full bg-[#E6F4EA] px-3 py-1 text-xs text-[#5C8B12]/90 border border-primary/20">
-    <span>{name}</span>
-    <XCircle className="h-3 w-3 text-[#4CAF50]/50" />
-  </div>
-);
+import { useAppContext } from "@/context/AppContext";
 
 const RecipeCard = ({ recipe }: { recipe: Recipe }) => (
- <Card className="overflow-hidden border bg-card">
-    <CardContent className="p-4 flex gap-4">
-      <div className="flex-1 space-y-2">
-        <CardTitle className="font-headline text-lg">{recipe.title}</CardTitle>
+  <Link href={`/recipes/${recipe.id}`} className="block h-full">
+    <Card className="overflow-hidden border bg-card h-full hover:shadow-lg transition-shadow">
+      <CardContent className="p-4 flex gap-4">
+        <div className="flex-1 space-y-2">
+          <CardTitle className="font-headline text-lg">{recipe.title}</CardTitle>
           <Separator />
           <CardDescription className="text-sm text-muted-foreground line-clamp-3">
-          {recipe.description}
-        </CardDescription>
-      </div>
-      <div className="flex-shrink-0">
-        <Image src={recipe.image} alt={recipe.title} width={80} height={80} className="w-30 h-20  rounded-lg object-cover" data-ai-hint="jollof rice" />
-      </div>
-    </CardContent>
-      <CardFooter className="p-4 pt-0">
-       <div className="flex flex-wrap gap-2">
-          {recipe.ingredients?.map((ingredient) => (
-            <IngredientTag key={ingredient} name={ingredient} />
-          ))}
+            {recipe.description}
+          </CardDescription>
         </div>
-    </CardFooter>
-  </Card>
+        <div className="flex-shrink-0">
+          <Image src={recipe.image} alt={recipe.title} width={80} height={80} className="w-20 h-20 rounded-lg object-cover" data-ai-hint={recipe.dataAiHint || 'food'} />
+        </div>
+      </CardContent>
+    </Card>
+  </Link>
 );
 
 export default function RecipesPage() {
+  const { recipes, isLoading } = useAppContext();
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredRecipes = useMemo(() => {
     if (!searchTerm) {
-      return allRecipes;
+      return recipes;
     }
     const lowercasedTerm = searchTerm.toLowerCase();
-    return allRecipes.filter(recipe =>
+    return recipes.filter(recipe =>
       recipe.title.toLowerCase().includes(lowercasedTerm) ||
-      recipe.description.toLowerCase().includes(lowercasedTerm) ||
-      (recipe.ingredients && recipe.ingredients.some(ing => ing.toLowerCase().includes(lowercasedTerm)))
-
+      (recipe.description && recipe.description.toLowerCase().includes(lowercasedTerm))
     );
-  }, [searchTerm]);
+  }, [searchTerm, recipes]);
   
+  if (isLoading) {
+    return (
+        <div className="space-y-6">
+            <header className="flex items-center justify-between">
+                <div className="h-8 w-48 bg-muted rounded-md animate-pulse" />
+                <div className="flex items-center gap-2">
+                    <div className="h-10 w-24 bg-muted rounded-md animate-pulse" />
+                    <div className="h-10 w-10 bg-muted rounded-full animate-pulse" />
+                </div>
+            </header>
+            <div className="h-12 w-full bg-muted rounded-full animate-pulse" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[...Array(4)].map((_, i) => (
+                    <div key={i} className="h-28 bg-muted rounded-lg animate-pulse" />
+                ))}
+            </div>
+        </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <header className="flex items-center justify-between">
         <h1 className="font-headline text-3xl">Recipes</h1>
-        <Button variant="ghost" size="icon" className="rounded-full bg-card shadow-sm border" asChild>
-          <Link href="/">
-            <ChevronLeft className="h-6 w-6" />
-          </Link>
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button asChild>
+            <Link href="/add-recipe">Add Recipe</Link>
+          </Button>
+          <Button variant="ghost" size="icon" className="rounded-full bg-card shadow-sm border" asChild>
+            <Link href="/">
+              <ChevronLeft className="h-6 w-6" />
+            </Link>
+          </Button>
+        </div>
       </header>
 
        <div className="relative">
@@ -131,7 +93,7 @@ export default function RecipesPage() {
         <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
       </div>
 
-      <div className="grid grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {filteredRecipes.length > 0 ? (
           filteredRecipes.map((recipe) => (
               <RecipeCard key={recipe.id} recipe={recipe} />

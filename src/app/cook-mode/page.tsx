@@ -1,122 +1,83 @@
 
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Volume2, Loader2, PlayCircle, PauseCircle } from "lucide-react";
-import { useState, useRef } from "react";
-import { textToSpeech } from "@/ai/flows/text-to-speech";
-import { useToast } from "@/hooks/use-toast";
+import { ChefHat, ArrowLeft } from "lucide-react";
+import { useAppContext } from "@/context/AppContext";
+import { Skeleton } from '@/components/ui/skeleton';
+import type { Recipe } from '@/types';
+import Link from 'next/link';
 
-const recipe = {
-  title: 'Classic Tomato Soup',
-  description: 'A creamy and delicious tomato soup, perfect for any season.',
-  image: 'https://plus.unsplash.com/premium_photo-1726754502577-ec156df402c9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Q2xhc3NpYyUyMFRvbWF0byUyMFNvdXB8ZW58MHx8MHx8fDA%3D',
-  dataAiHint: 'tomato soup',
-  steps: [
-    "Heat olive oil in a large pot over medium heat. Add chopped onions and cook until softened, about 5 minutes.",
-    "Add minced garlic and cook for another minute until fragrant.",
-    "Pour in crushed tomatoes, vegetable broth, and a pinch of sugar. Season with salt and pepper.",
-    "Bring the soup to a simmer, then reduce heat and let it cook for at least 20 minutes to allow the flavors to meld.",
-    "For a creamy texture, use an immersion blender to blend the soup until smooth. Alternatively, you can carefully transfer it to a regular blender.",
-    "Stir in the heavy cream and heat through, but do not boil. Serve hot, garnished with fresh basil."
-  ]
-};
+function CookModeLoader() {
+    return (
+        <div className="space-y-6">
+            <div className="flex items-center justify-between">
+                 <Skeleton className="h-10 w-48" />
+                 <Skeleton className="h-10 w-10 rounded-full" />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[...Array(3)].map((_, i) => (
+                    <Card key={i}>
+                        <CardHeader>
+                             <Skeleton className="w-full h-40" />
+                        </CardHeader>
+                        <CardContent className="space-y-2">
+                             <Skeleton className="h-6 w-3/4" />
+                             <Skeleton className="h-4 w-full" />
+                             <Skeleton className="h-4 w-4/5" />
+                             <Skeleton className="h-10 w-full mt-2" />
+                        </CardContent>
+                    </Card>
+                ))}
+            </div>
+        </div>
+    )
+}
 
 
 export default function CookModePage() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [audioSrc, setAudioSrc] = useState<string | null>(null);
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const { toast } = useToast();
+  const { recipes, isLoading } = useAppContext();
+  const router = useRouter();
 
-  const handlePlayPause = () => {
-    if (isPlaying) {
-      audioRef.current?.pause();
-      setIsPlaying(false);
-    } else {
-      audioRef.current?.play();
-      setIsPlaying(true);
-    }
-  };
+  if (isLoading) {
+    return <CookModeLoader />;
+  }
 
-  const handleReadAloud = async () => {
-    setIsLoading(true);
-    try {
-      const recipeText = recipe.steps.join(' ');
-      const response = await textToSpeech(recipeText);
-      if (response.media) {
-        setAudioSrc(response.media);
-        setIsPlaying(true);
-        setTimeout(() => {
-          audioRef.current?.play();
-        }, 100);
-      } else {
-        throw new Error('No audio data received.');
-      }
-    } catch (error) {
-      console.error("Error generating audio:", error);
-      toast({
-        variant: "destructive",
-        title: "Audio Generation Failed",
-        description: "Could not generate the voice guidance. Please try again.",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  
   return (
-    <div className="container mx-auto py-8">
-      <Card className="overflow-hidden">
-        <CardHeader className="p-0 relative">
-          <Image src={recipe.image} alt={recipe.title} width={800} height={600} className="w-full h-auto" data-ai-hint={recipe.dataAiHint} />
-           <div className="absolute bottom-4 right-4">
-            {audioSrc && (
-              <Button onClick={handlePlayPause} size="icon" className="rounded-full h-12 w-12 bg-primary/80 backdrop-blur-sm hover:bg-primary">
-                {isPlaying ? <PauseCircle className="h-6 w-6" /> : <PlayCircle className="h-6 w-6" />}
-              </Button>
-            )}
-           </div>
-        </CardHeader>
-        <CardContent className="p-6">
-          <div className="flex justify-between items-start">
-            <div>
-              <CardTitle className="font-headline text-3xl">{recipe.title}</CardTitle>
-              <p className="mt-2 text-muted-foreground">{recipe.description}</p>
-            </div>
-             <Button onClick={handleReadAloud} disabled={isLoading}>
-              {isLoading ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <Volume2 className="mr-2 h-4 w-4" />
-              )}
-              Read Aloud
-            </Button>
-          </div>
+    <div className="space-y-6">
+       <header className="flex items-center justify-between">
+        <div>
+            <h1 className="font-headline text-3xl">Cook Mode</h1>
+            <p className="text-muted-foreground">Choose a recipe to start your guided cooking session.</p>
+        </div>
+        <Button variant="ghost" size="icon" className="rounded-full bg-card shadow-sm border" asChild>
+          <Link href="/recipes">
+            <ArrowLeft className="h-6 w-6" />
+          </Link>
+        </Button>
+      </header>
 
-          <div className="mt-6 space-y-4">
-            <h3 className="font-bold text-xl font-headline">Instructions</h3>
-            <ol className="list-decimal list-inside space-y-3">
-              {recipe.steps.map((step, index) => (
-                <li key={index} className="text-muted-foreground leading-relaxed">{step}</li>
-              ))}
-            </ol>
-          </div>
-        </CardContent>
-      </Card>
-      {audioSrc && (
-        <audio 
-          ref={audioRef} 
-          src={audioSrc} 
-          onEnded={() => setIsPlaying(false)}
-          onPlay={() => setIsPlaying(true)}
-          onPause={() => setIsPlaying(false)}
-          hidden
-        />
-      )}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {recipes.map((recipe) => (
+          <Card key={recipe.id} className="flex flex-col">
+            <CardHeader className="p-0">
+              <Image src={recipe.image} alt={recipe.title} width={400} height={200} className="w-full h-40 object-cover rounded-t-lg" data-ai-hint={recipe.dataAiHint} />
+            </CardHeader>
+            <CardContent className="p-4 flex-grow flex flex-col">
+              <CardTitle className="font-headline text-xl">{recipe.title}</CardTitle>
+              <CardDescription className="mt-2 text-muted-foreground flex-grow">{recipe.description}</CardDescription>
+              <Button onClick={() => router.push(`/cook-mode/${recipe.id}`)} className="w-full mt-4">
+                <ChefHat className="mr-2 h-4 w-4" />
+                Start Cooking
+              </Button>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 }

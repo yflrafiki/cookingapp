@@ -10,7 +10,8 @@ import { useState, useEffect } from 'react';
 const mainNavLinks = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/videos', label: 'Videos', icon: Youtube },
-  { href: '/add-recipe', label: 'Add Recipe', icon: Utensils },
+  { href: '/recipes', label: 'Add Recipe', icon: Utensils },
+  // { href: '/add-recipe', label: 'Add Recipe', icon: Utensils },
   { href: '/settings',label: 'Settings', icon: Settings },
 ];
 

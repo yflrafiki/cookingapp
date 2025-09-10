@@ -56,7 +56,7 @@ export const ACTIONS: Action[] = [
     shadow: "drop-shadow-cook-mode",
   },
   {
-    title: "Notes",
+    title: "Add Note",
     icon: FileText,
     backgroundColor: "bg-[#CA30BA]",
     href: "/add-recipe",
