@@ -71,9 +71,6 @@ export default function RecipesPage() {
       <header className="flex items-center justify-between">
         <h1 className="font-headline text-3xl">Recipes</h1>
         <div className="flex items-center gap-2">
-          <Button asChild>
-            <Link href="/add-recipe">Add Recipe</Link>
-          </Button>
           <Button variant="ghost" size="icon" className="rounded-full bg-card shadow-sm border" asChild>
             <Link href="/">
               <ChevronLeft className="h-6 w-6" />
