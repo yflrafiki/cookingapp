@@ -10,8 +10,8 @@ export default function ActionCard({ title, icon: Icon, backgroundColor, href, b
     <Link href={href}>
       <Card className={cn("group overflow-hidden transition-transform h-full rounded-sm text-foreground py-10", backgroundColor, borderColor )}>
         <CardContent className="flex flex-col items-center justify-center p-1 gap-3 text-center h-full">
-          <Icon className="h-8 w-8 text-" />
-          <h3 className="text-md font-semibold">{title}</h3>
+          <Icon className="h-8 w-8 text-white" />
+          <h3 className="text-md font-semibold text-white">{title}</h3>
         </CardContent>
       </Card>
     </Link>

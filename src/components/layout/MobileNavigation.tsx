@@ -20,9 +20,9 @@ function NavLink({ href, icon: Icon, isActive }: { href: string; icon: React.Ele
   return (
     <Link href={href} className="flex flex-col items-center justify-center py-2 px-1 text-xs transition-colors duration-200 min-w-0 flex-1">
       <Icon
-        className={cn('h-6 w-6 mb-1', isActive && 'text-primary')}
+        className={cn('h-6 w-6 mb-1', isActive ? 'text-primary' : 'text-muted-foreground')}
       />
-      <span className="truncate w-full text-center leading-tight">
+      <span className="truncate w-full text-center leading-tight text-[10px] font-medium text-muted-foreground">
         {mainNavLinks.find(link => link.href === href)?.label}
       </span>
     </Link>

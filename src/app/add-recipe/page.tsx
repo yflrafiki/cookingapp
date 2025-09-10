@@ -13,27 +13,51 @@ import { useAppContext } from '@/context/AppContext';
 import type { Recipe } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 
+import { useCreateRecipe } from '@/hooks/use-recipes';
+import { set } from 'date-fns';
+
 
 export default function AddRecipePage() {
-  const { addRecipe } = useAppContext();
+  // const { addRecipe } = useAppContext();
   const router = useRouter();
   const { toast } = useToast();
   const [title, setTitle] = useState('');
   const [notes, setNotes] = useState('');
   const [image, setImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isLoading , setIsLoading] = useState(false);
 
-  const handleSave = () => {
-    if (!title) {
+  const createRecipe = useCreateRecipe();
+
+  const handleSave = async () => {
+    if (!title.trim()) {
       toast({
         variant: 'destructive',
         title: 'Missing Information',
         description: 'Please provide a title for your recipe.',
       });
+
+
       return;
     }
 
-    const newRecipe: Recipe = {
+    else if (!notes.trim()) {
+      toast({
+        variant: 'destructive',
+        title: 'Missing Information',
+        description: 'Please provide notes for your recipe.',
+        
+      });
+      return;
+    }
+
+
+    try{
+
+
+      setIsLoading(true);
+
+      const newRecipe: Recipe = {
       id: String(Date.now()), // Simple unique id
       title,
       description: notes,
@@ -43,7 +67,7 @@ export default function AddRecipePage() {
       dataAiHint: title.toLowerCase().split(' ').slice(0, 2).join(' '),
     };
 
-    addRecipe(newRecipe);
+    await createRecipe(newRecipe);
 
     toast({
       title: 'Recipe Added!',
@@ -51,6 +75,25 @@ export default function AddRecipePage() {
     });
 
     router.push('/recipes');
+
+
+    }
+
+    catch(error){
+      console.error('Error adding recipe:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'There was an error adding your recipe. Please try again.',
+      });
+      return;
+    } 
+
+    finally{
+      setIsLoading(false);
+    }
+
+
   };
   
   const handleCameraClick = () => {
@@ -88,32 +131,35 @@ export default function AddRecipePage() {
         <Input 
           id="title" 
           placeholder="Title" 
-          className="rounded-xl border-border/50 bg-card p-4 h-12" 
+          className="border-border/50 bg-card p-5 rounded-[5px] h-12" 
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <div className="flex flex-1 flex-col rounded-xl border border-border/50 bg-card p-4 space-y-4">
+        <div className="flex flex-1 flex-col rounded-[5px] border border-border/50 bg-cardspace-y-4 relative">
             <Textarea
                 placeholder="Write your recipe notes here..."
-                className="flex-1 w-full bg-transparent resize-none focus:outline-none text-muted-foreground min-h-[200px] md:min-h-0"
+                className="flex-1 w-full bg-transparent resize-none
+                border-none rounded-[5px]
+                 focus:outline-none text-muted-foreground 
+                 min-h-[200px] md:min-h-0"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
             />
             {image && (
-                <div className="flex flex-wrap gap-2 pt-2">
+                <div className="flex flex-wrap gap-2 pt-2 absolute bottom-14 left-0 m-4">
                    <div className="relative group">
                         <Image 
                             src={image} 
                             alt="Recipe preview" 
                             width={100} 
                             height={100} 
-                            className="rounded-lg object-cover h-24 w-24"
+                            className="rounded-[5px] object-cover h-24 w-24"
                             data-ai-hint="recipe image"
                         />
                          <Button
                             variant="destructive"
                             size="icon"
-                            className="absolute -top-2 -right-2 h-6 w-6 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                            className="absolute -top-1 -right-1 h-6 w-6 rounded-full"
                             onClick={handleRemoveImage}
                          >
                             <X className="h-4 w-4" />
@@ -121,14 +167,15 @@ export default function AddRecipePage() {
                     </div>
                 </div>
             )}
-            <div className="flex items-center justify-between mt-auto pt-2">
-              <button onClick={handleCameraClick} className="text-muted-foreground hover:text-primary">
+            <div className="flex items-center flex-start mt-auto px-1 absolute bottom-0 left-0 mb-2">
+              <Button onClick={handleSave} 
+              disabled={isLoading}
+              className='ml-[10px] rounded-[5px] text-white disabled:opacity-50'>
+                {isLoading ? "Saving..." : "Save Recipe"}
+              </Button>
+              <button onClick={handleCameraClick} className="text-muted-foreground hover:text-primary p-4">
                 <Camera className="h-6 w-6" />
               </button>
-              <Button onClick={handleSave}>
-                <CheckSquare className="h-5 w-5 mr-2" />
-                Save Recipe
-              </Button>
               <input 
                 type="file" 
                 ref={fileInputRef} 

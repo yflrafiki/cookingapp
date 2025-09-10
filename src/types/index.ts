@@ -20,14 +20,10 @@ export interface Action {
 
 export interface Recipe {
   dataAiHint: any;
-  steps: any;
   id: string;
   title: string;
   description: string;
   image: string;
-  rating?: number;
-  cookTime?: string;
-  difficulty?: 'Easy' | 'Medium' | 'Hard';
-  layout?: 'list' | 'grid' | 'compact';
   ingredients?: string[];
+  steps?: string[];
 }
