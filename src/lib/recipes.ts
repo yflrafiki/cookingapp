@@ -4,11 +4,11 @@ import type { Recipe } from "@/types";
 export const allRecipes: Recipe[] = [
   {
     id: '1',
-    title: 'Spaghetti Carbonara',
-    description: 'A classic Italian pasta dish with a creamy egg-based sauce, pancetta, and Parmesan cheese.',
-    image: 'https://picsum.photos/800/600',
+    title: 'Jollof Rice',
+    description: 'A classic West African dish, rich in flavor and tradition',
+    image: '/jollof flavour.jpg',
     dataAiHint: 'pasta carbonara',
-    ingredients: ['Spaghetti', 'Pancetta', 'Eggs', 'Parmesan Cheese', 'Black Pepper', 'Olive Oil'],
+    ingredients: ['Tomatoes', 'Onions', 'Salt', 'Thyme'],
     steps: [
       "Cook spaghetti according to package directions. Reserve 1 cup of pasta water before draining.",
       "While pasta is cooking, heat olive oil in a large skillet over medium heat. Add diced pancetta and cook until crisp.",
@@ -23,9 +23,9 @@ export const allRecipes: Recipe[] = [
     id: '2',
     title: 'Jollof Rice',
     description: 'A classic West African dish, rich in flavor and tradition.',
-    image: 'https://picsum.photos/800/600',
+    image: '/jollof flavour.jpg',
     dataAiHint: 'jollof rice',
-    ingredients: ['Long-grain rice', 'Tomatoes', 'Onions', 'Bell peppers', 'Scotch bonnet peppers', 'Tomato paste', 'Vegetable oil', 'Thyme', 'Curry powder', 'Bay leaves'],
+    ingredients: ['Tomatoes', 'Onions', 'Salt', 'Thyme'],
     steps: [
         "Blend tomatoes, onions, bell peppers, and scotch bonnet peppers into a smooth puree.",
         "In a large pot, heat vegetable oil and fry the blended puree until the water has evaporated and the stew is thick.",
@@ -41,9 +41,9 @@ export const allRecipes: Recipe[] = [
     id: '3',
     title: 'Classic Tomato Soup',
     description: 'A creamy and delicious tomato soup, perfect for any season. Made with fresh tomatoes and herbs.',
-    image: 'https://picsum.photos/800/600',
+    image: '/noddles.jpg',
     dataAiHint: 'tomato soup',
-    ingredients: ['Tomatoes', 'Onion', 'Garlic', 'Vegetable Broth', 'Heavy Cream', 'Basil', 'Butter'],
+    ingredients: ['Tomatoes', 'Onions', 'Salt', 'Thyme'],
     steps: [
         "Melt butter in a large pot over medium heat. Add chopped onion and garlic, and cook until softened.",
         "Add canned or fresh chopped tomatoes and vegetable broth. Bring to a simmer.",
@@ -58,9 +58,9 @@ export const allRecipes: Recipe[] = [
     id: '4',
     title: 'Egusi Soup',
     description: 'A rich and savory soup made from ground melon seeds, vegetables, and your choice of protein.',
-    image: 'https://picsum.photos/800/600',
+    image: '/noddles.jpg',
     dataAiHint: 'egusi soup',
-    ingredients: ['Ground Egusi (Melon Seeds)', 'Spinach or Ugu leaves', 'Palm Oil', 'Onions', 'Beef', 'Stockfish', 'Crayfish'],
+    ingredients: ['Tomatoes', 'Onions', 'Salt', 'Thyme'],
     steps: [
       "Wash and cook the beef and stockfish until tender. Reserve the stock.",
       "Heat palm oil in a pot, add chopped onions and fry until translucent.",

@@ -1,6 +1,6 @@
 
 import type { Category, Action } from "@/types";
-import { Salad, Cake, Coffee, UtensilsCrossed, Search, Mic, ChefHat, FileText } from "lucide-react";
+import { Salad, Cake, Coffee, UtensilsCrossed, Search, Mic, ChefHat, FileText, BookUser } from "lucide-react";
 
 export const CATEGORIES: Category[] = [
   {
@@ -39,10 +39,10 @@ export const ACTIONS: Action[] = [
     shadow: "drop-shadow-find-recipe-shadow",
   },
   {
-    title: "Voice Search",
-    icon: Mic,
+    title: "My Recipes",
+    icon: BookUser,
     backgroundColor: "bg-[#E2B440]",
-    href: "#",
+    href: "/my-recipes",
     borderColor: "border-[#CBB680]",
     shadow: "drop-shadow-voice-search",
 
@@ -56,7 +56,7 @@ export const ACTIONS: Action[] = [
     shadow: "drop-shadow-cook-mode",
   },
   {
-    title: "Notes",
+    title: "Add Recipes",
     icon: FileText,
     backgroundColor: "bg-[#CA30BA]",
     href: "/add-recipe",
