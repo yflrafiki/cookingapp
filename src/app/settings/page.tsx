@@ -28,7 +28,7 @@ const SettingItem = ({ icon: Icon, title, description, action }: SettingItemProp
       <Icon className="h-5 w-5" />
     </div>
     <div className="flex-1">
-      <p className="font-medium ">{title}</p>
+      <p className="font-medium text-foreground">{title}</p>
       <p className="text-sm text-muted-foreground">{description}</p>
     </div>
     {action && <div className="flex-shrink-0">{action}</div>}
@@ -58,20 +58,20 @@ export default function SettingsPage() {
     <div className="space-y-6">
       <header className="flex items-center justify-between">
         <div>
-          <h1 className="font-semibold text-[#333333] text-[24px]">Settings</h1>
-          <p className="text-[#5D5A5A] font-normal text-[12px]">Customize your CookingCompanion experience</p>
+          <h1 className="font-semibold text-foreground text-[24px]">Settings</h1>
+          <p className="text-muted-foreground font-normal text-[12px]">Customize your CookingCompanion experience</p>
         </div>
         <Button variant="ghost" size="icon" className="rounded-full bg-card shadow-sm border" asChild>
           <Link href="/">
-            <ChevronLeft className="h-6 w-6" />
+            <ChevronLeft className="h-6 w-6 text-foreground" />
           </Link>
         </Button>
       </header>
 
       <div className="space-y-6">
         <div className="space-y-2">
-          <h3 className=" text-[#333333] font-semibold">Accessibility</h3>
-          <div className="flex flex-col font-normal text-[#000000] divide-y divide-border">
+          <h3 className="text-foreground font-semibold">Accessibility</h3>
+          <div className="flex flex-col font-normal text-foreground divide-y divide-border">
              <div>
               <SettingItem 
                 icon={Text} 
@@ -120,7 +120,7 @@ export default function SettingsPage() {
         <Separator />
 
         <div className="space-y-2">
-          <h3 className="text-[#333333] font-semibold">Notifications</h3>
+          <h3 className="text-foreground font-semibold">Notifications</h3>
            <div className="flex flex-col divide-y divide-border">
              <SettingItem 
               icon={Bell} 

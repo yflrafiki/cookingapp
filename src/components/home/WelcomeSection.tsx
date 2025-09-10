@@ -156,7 +156,7 @@ export default function WelcomeSection() {
 
   return (
     <section className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold tracking-tight font-headline md:text-3xl">
+      <h1 className="text-2xl font-bold tracking-tight font-headline md:text-3xl text-foreground">
         Welcome,
         <br />
         What would you like to cook?
@@ -164,7 +164,7 @@ export default function WelcomeSection() {
       <div className="relative h-[10rem] mt-[2rem]">
         <Textarea
           placeholder="Tell me what you have and I'll show you what to cook"
-          className="w-full h-full rounded-2xl bg-[#FFFEFE] pr-10 pl-4 py-3 resize-none min-h-[6rem]"
+          className="w-full h-full rounded-2xl bg-card pr-10 pl-4 py-3 resize-none min-h-[6rem]"
           value={text}
           onChange={(e) => setText(e.target.value)}
         />

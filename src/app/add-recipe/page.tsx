@@ -54,15 +54,15 @@ export default function AddRecipePage() {
   return (
     <div className="flex h-full flex-col md:h-[calc(100vh-4rem)] space-y-6">
       <header className="flex items-center justify-between">
-        <h1 className="font-headline text-3xl">Add Recipe</h1>
+        <h1 className="font-headline text-3xl text-foreground">Add Recipe</h1>
         {isDirty ? (
           <Button variant="ghost" size="icon" className="rounded-full bg-primary/20 text-primary-foreground border border-primary/30" onClick={handleSave}>
-            <Check className="h-6 w-6" />
+            <Check className="h-6 w-6 text-foreground" />
           </Button>
         ) : (
           <Button variant="ghost" size="icon" className="rounded-full bg-card shadow-sm border" asChild>
             <Link href="/">
-              <ChevronLeft className="h-6 w-6" />
+              <ChevronLeft className="h-6 w-6 text-foreground" />
             </Link>
           </Button>
         )}

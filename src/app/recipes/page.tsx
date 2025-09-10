@@ -63,9 +63,9 @@ const allRecipes: Recipe[] = [
 ];
 
 const IngredientTag = ({ name }: { name: string }) => (
-  <div className="flex items-center gap-1.5 rounded-full bg-[#E6F4EA] px-3 py-1 text-xs text-[#5C8B12]/90 border border-primary/20">
+  <div className="flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs text-primary/90 border border-primary/20">
     <span>{name}</span>
-    <XCircle className="h-3 w-3 text-[#4CAF50]/50" />
+    <XCircle className="h-3 w-3 text-primary/50" />
   </div>
 );
 
