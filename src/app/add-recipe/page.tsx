@@ -4,7 +4,7 @@
 import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Camera, Check, CheckSquare, ChevronLeft, X } from 'lucide-react';
+import { Camera, Check, CheckSquare, ChevronLeft, X , Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -117,7 +117,7 @@ export default function AddRecipePage() {
 
 
   return (
-    <div className="flex h-full flex-col space-y-4">
+    <div className="flex h-full flex-col space-y-4 px-4 py-4">
       <header className="flex items-center justify-between">
         <h1 className="font-headline text-3xl text-foreground">Add Recipe</h1>
         <Button variant="ghost" size="icon" className="rounded-full bg-card shadow-sm border" asChild>
@@ -152,6 +152,7 @@ export default function AddRecipePage() {
                             src={image} 
                             alt="Recipe preview" 
                             width={100} 
+                            unoptimized
                             height={100} 
                             className="rounded-[5px] object-cover h-24 w-24"
                             data-ai-hint="recipe image"
@@ -171,7 +172,11 @@ export default function AddRecipePage() {
               <Button onClick={handleSave} 
               disabled={isLoading}
               className='ml-[10px] rounded-[5px] text-white disabled:opacity-50'>
-                {isLoading ? "Saving..." : "Save Recipe"}
+                {isLoading ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  "Save Recipe"
+                )}
               </Button>
               <button onClick={handleCameraClick} className="text-muted-foreground hover:text-primary p-4">
                 <Camera className="h-6 w-6" />

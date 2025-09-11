@@ -24,8 +24,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [textSize, setTextSizeState] = useState(33);
   const [highContrast, setHighContrastState] = useState(false);
   const [theme, setThemeState] = useState<'light' | 'dark'>('light');
-  const [recipes, setRecipes] = useState<Recipe[]>(defaultRecipes);
-  const [isLoading, setIsLoading] = useState(true);
+
 
 
 

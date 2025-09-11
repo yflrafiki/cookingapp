@@ -31,7 +31,9 @@ const RecipeCard = ({ recipe }: { recipe: Recipe }) => (
         </div>{
           recipe.image && (
             <div className="flex-shrink-0">
-              <Image src={recipe.image} alt={recipe.title} width={80} height={80} className="w-20 h-20 rounded-lg object-cover" data-ai-hint={recipe.dataAiHint || 'food'} />
+              <Image src={recipe.image} 
+              unoptimized
+              alt={recipe.title} width={80} height={80} className="w-20 h-20 rounded-lg object-cover" data-ai-hint={recipe.dataAiHint || 'food'} />
             </div>
           )
         }
@@ -63,7 +65,7 @@ export default function MyRecipesPage() {
 
   if (isLoading) {
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 px-4 py-4">
             <header className="flex items-center justify-between">
                 <Skeleton className="h-8 w-48" />
                 <div className="flex items-center gap-2">
@@ -81,7 +83,7 @@ export default function MyRecipesPage() {
   }
 
   return (
-    <div className="space-y-6 h-full">
+    <div className="space-y-6 h-full px-4 py-4">
       <header className="flex items-center justify-between">
         <h1 className="font-headline text-3xl">My Recipes</h1>
         <div className="flex items-center gap-2">

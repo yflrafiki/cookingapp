@@ -1,5 +1,4 @@
-
-'use client';
+'use client'
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,7 +11,7 @@ import type { Recipe } from "@/types";
 import { useAppContext } from "@/context/AppContext";
 import { useParams, useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useGetRecipe } from "@/hooks/use-recipes";
+import { getRecipe } from "../actions";
 
 function CookingViewLoader() {
     return (
@@ -53,7 +52,6 @@ export default function CookModePage() {
   const [isContentLoading , setIsContentLoading] = useState(true)
   const [recipe, setRecipe] = useState<Recipe | null>(null);
 
-  const getRecipe = useGetRecipe()
 
   const recipeId = Array.isArray(params.id) ? params.id[0] : params.id;
 
@@ -62,6 +60,7 @@ export default function CookModePage() {
 
     getRecipe(recipeId).then((data)=>{
       setRecipe(data)
+      console.log(data)
       setIsContentLoading(false)
     }).catch(()=>{
          toast({
@@ -90,13 +89,9 @@ export default function CookModePage() {
     if (!recipe) return;
     setIsLoading(true);
     try {
-      
-      const recipeText = recipe.steps?.join(' ') || recipe.description;
-
-      console.log(recipeText , "the text")
-
+      const steps = JSON.parse(recipe.steps) || []
+      const recipeText = steps?.join(' ') || recipe.description;
       const response = await textToSpeech(recipeText);
-
       if (response.media) {
         setAudioSrc(response.media);
         setIsPlaying(true);
@@ -118,7 +113,6 @@ export default function CookModePage() {
     }
   };
 
-
   if (isContentLoading || !recipe) {
     return <CookingViewLoader />;
   }
@@ -136,8 +130,7 @@ export default function CookModePage() {
           <Image src={recipe.image} alt={recipe.title} width={800}
           unoptimized
           style={{marginTop : 0}}
-           height={400} className="w-full h-auto max-h-[400px]
-            object-cover" data-ai-hint={recipe.dataAiHint} />
+           height={400} className="w-full h-auto max-h-[400px] mt-0 object-cover" data-ai-hint={recipe.dataAiHint} />
            <div className="absolute bottom-4 right-4">
             {audioSrc && (
               <Button onClick={handlePlayPause} size="icon" className="rounded-full h-12 w-12 bg-primary/80 backdrop-blur-sm hover:bg-primary">
@@ -168,7 +161,7 @@ export default function CookModePage() {
             <h3 className="font-bold text-xl font-headline">Steps</h3>
              {recipe.steps && recipe.steps.length > 0 ? (
                 <ol className="list-decimal list-inside space-y-3">
-                {recipe.steps.map((step: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined, index: Key | null | undefined) => (
+                {JSON.parse(recipe.steps).map((step: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined, index: Key | null | undefined) => (
                     <li key={index} className="text-muted-foreground leading-relaxed">{step}</li>
                 ))}
                 </ol>

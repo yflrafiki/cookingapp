@@ -3,11 +3,14 @@
 import { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from '@/components/ui/card';
-import { MessageCircle, X, Heart, Share2, ThumbsUp , ReceiptText } from "lucide-react";
+import { MessageCircle, X, Heart, Share2, ThumbsUp , ReceiptText , Loader2 } from "lucide-react";
 import Image from "next/image";
 import { cn } from '@/lib/utils';
+import { getVideos } from './actions';
+import { Video as VideoType } from '@/types';
 
-// Dummy cooking tutorial data
+
+
 const cookingVideos = [
   {
     id: '1',
@@ -64,6 +67,8 @@ const cookingVideos = [
 type Video = typeof cookingVideos[0];
 
 export default function VideosPage() {
+
+
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isRecipieOpen, setIsRecipieOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
@@ -71,6 +76,26 @@ export default function VideosPage() {
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
   const currentVideo = cookingVideos[currentVideoIndex];
+
+
+  const [loading , setLoading] = useState(true)
+  const [videos , setVideos] = useState<VideoType[]>([])
+  const [error , setError] = useState<string | null>(null)
+
+
+  useEffect(() => {
+    getVideos().then((data) => {
+      setVideos(data)
+      setLoading(false)
+      setError(null)
+    }).catch((error) => {
+      console.error(error)
+      setLoading(false)
+      setError(error)
+    })
+  }, [])
+
+
 
   // Handle scroll to snap to videos
   useEffect(() => {
@@ -140,6 +165,24 @@ export default function VideosPage() {
     }
   };
 
+
+
+  if (loading) {  
+    return <div className="flex justify-center items-center h-full">
+      <Loader2 className="animate-spin" />
+    </div>
+  }
+  
+  if (error) {
+    return <div className="flex justify-center items-center h-full
+    flex-col gap-4">
+      <p className="text-foreground w-[70%] text-center">A network error occurred. Please try again later.</p>
+      <Button variant="outline"
+      className='rounded-[5px]'
+       onClick={() => window.location.reload()}>Reload</Button>
+    </div>
+  }
+
   return (
     <div className="relative w-full h-screen overflow-hidden bg-black">
       {/* Video Container */}
@@ -172,7 +215,7 @@ export default function VideosPage() {
             />
 
             {/* Bottom Left Text Overlay */}
-            <div className="absolute bottom-0 left-0 right-0 p-6 mb-[5rem] text-white z-10">
+            <div className="absolute bottom-0 left-0 right-0 p-6 pb-[120px] text-white z-10">
               <div className="max-w-[calc(100%-80px)]">
                 <h2 className="text-2xl font-bold mb-2 line-clamp-1">{video.title}</h2>
                 <p className="text-sm text-white/90 line-clamp-3 leading-relaxed">
@@ -182,7 +225,7 @@ export default function VideosPage() {
             </div>
 
             {/* Right Side Action Bar */}
-            <div className="absolute right-4 bottom-20 flex flex-col mb-[5rem] items-center gap-4 z-10">
+            <div className="absolute right-4 bottom-20 flex flex-col pb-[100px] items-center gap-4 z-10">
               {/* Comment/Details Button */}
               <div className="flex flex-col items-center gap-1">
                 <Button
@@ -232,7 +275,7 @@ function DetailsPanel({ video, onClose }: { video: Video; onClose: () => void })
 
   return (
     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm">
-      <div className="absolute right-0 top-0 h-full w-full max-w-md bg-background shadow-2xl pb-[5rem]">
+      <div className="absolute right-0 top-0 h-full w-full max-w-md bg-background shadow-2xl pb-[100px]">
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b">
@@ -250,7 +293,13 @@ function DetailsPanel({ video, onClose }: { video: Video; onClose: () => void })
           </div>
 
           <div className="p-4">
-          <p className="text-sm text-muted-foreground mb-3">{video.description}</p>
+            {
+              video.steps ? 
+              video.steps.map((step)=> <p className="text-sm text-muted-foreground mb-3">{step}</p> )
+              
+              : <></>
+            }
+          
           </div>
 
      

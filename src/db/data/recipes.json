@@ -1,0 +1,245 @@
+[
+    {
+      "id": "1",
+      "title": "Jollof Rice",
+      "description": "A beloved West African dish made with rice, tomatoes, and spices.",
+      "image": "https://plus.unsplash.com/premium_photo-1694141252774-c937d97641da?q=80&w=688&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "ingredients": ["Rice", "Tomatoes", "Onions", "Bell Peppers", "Spices"],
+      "steps": [
+        "Blend tomatoes, onions, and peppers.",
+        "Fry mixture with oil and spices.",
+        "Add rice and cook until fluffy."
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Egusi Soup",
+      "description": "A Nigerian soup made with melon seeds, vegetables, and meat.",
+      "image": "https://www.umami.recipes/api/image/recipes/X1Rgh8gyVJSo0VlDluTR/images/AiNvs267Qb1AcOqzGkO0YJ?w=3840&q=75",
+      "ingredients": ["Egusi seeds", "Palm oil", "Spinach", "Goat meat", "Seasoning"],
+      "steps": [
+        "Grind melon seeds into a paste.",
+        "Fry in palm oil.",
+        "Add meat, stock, and vegetables."
+      ]
+    },
+    {
+      "id": "3",
+      "title": "Chapati",
+      "description": "Soft unleavened flatbread popular in East Africa and India.",
+      "image": "https://www.vegkitchen.com/wp-content/uploads/2007/09/Homemade-Chapatis-500x382.jpg",
+      "ingredients": ["Flour", "Water", "Salt", "Oil"],
+      "steps": [
+        "Mix flour, water, and salt into dough.",
+        "Roll into flat circles.",
+        "Cook on a hot pan with oil."
+      ]
+    },
+    {
+      "id": "4",
+      "title": "Spaghetti Carbonara",
+      "description": "Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
+      "image": "https://www.budgetbytes.com/wp-content/uploads/2016/05/Spaghetti-Carbonara-Plated.jpg",
+      "ingredients": ["Spaghetti", "Eggs", "Pancetta", "Parmesan Cheese", "Black Pepper"],
+      "steps": [
+        "Cook spaghetti until al dente.",
+        "Fry pancetta until crisp.",
+        "Mix eggs and cheese.",
+        "Combine everything with pepper."
+      ]
+    },
+    {
+      "id": "5",
+      "title": "Avocado Toast",
+      "description": "Quick and healthy avocado toast with toppings.",
+      "image": "https://mallorythedietitian.com/wp-content/uploads/2025/05/side-view-of-avocado-cottage-cheese-toast-on-a-brown-plate.jpg",
+      "ingredients": ["Bread", "Avocado", "Salt", "Pepper", "Lemon Juice"],
+      "steps": [
+        "Toast bread slices.",
+        "Mash avocado with lemon, salt, and pepper.",
+        "Spread on toast and serve."
+      ]
+    },
+    {
+      "id": "6",
+      "title": "Sushi",
+      "description": "Japanese dish with rice, seaweed, and fillings.",
+      "image": "https://sudachirecipes.com/wp-content/uploads/2024/09/ebikyu-maki-thumb.png",
+      "ingredients": ["Sushi rice", "Nori", "Fish or vegetables", "Soy sauce"],
+      "steps": [
+        "Cook and season rice.",
+        "Place rice on nori sheet.",
+        "Add fillings and roll tightly.",
+        "Slice and serve."
+      ]
+    },
+    {
+      "id": "7",
+      "title": "Fufu and Light Soup",
+      "description": "A Ghanaian dish of pounded starchy food with spiced soup.",
+      "image": "https://shopafricausa.com/cdn/shop/articles/edf516a1ea586d366c40471f8ae5ba5e_3000x.jpg?v=1590425707",
+      "ingredients": ["Cassava flour", "Plantains", "Chicken", "Tomatoes", "Spices"],
+      "steps": [
+        "Prepare fufu from cassava and plantain.",
+        "Cook soup with tomatoes, peppers, and chicken.",
+        "Serve fufu with light soup."
+      ]
+    },
+    {
+      "id": "8",
+      "title": "Pizza Margherita",
+      "description": "Classic Italian pizza with tomato, mozzarella, and basil.",
+      "image": "https://cdn.loveandlemons.com/wp-content/uploads/opengraph/2023/07/margherita-pizza-recipe.jpg",
+      "ingredients": ["Pizza dough", "Tomato sauce", "Mozzarella", "Basil"],
+      "steps": [
+        "Spread tomato sauce on dough.",
+        "Add mozzarella and basil.",
+        "Bake until cheese melts."
+      ]
+    },
+    {
+      "id": "9",
+      "title": "Shakshuka",
+      "description": "Middle Eastern dish of eggs poached in spicy tomato sauce.",
+      "image": "https://ottolenghi.co.uk/cdn/shop/files/shakshuka-6_1_1.jpg?v=1708090280&width=1000",
+      "ingredients": ["Eggs", "Tomatoes", "Onions", "Peppers", "Spices"],
+      "steps": [
+        "Cook tomatoes, onions, and spices.",
+        "Crack eggs into sauce.",
+        "Cover and simmer until eggs set."
+      ]
+    },
+    {
+      "id": "10",
+      "title": "Kelewele",
+      "description": "Spicy fried plantains, a Ghanaian street food favorite.",
+      "image": "https://othdabererestaurant.com/wp-content/uploads/2023/12/Kelewele2.jpg.webp",
+      "ingredients": ["Plantains", "Ginger", "Garlic", "Cayenne Pepper", "Salt"],
+      "steps": [
+        "Cut plantains into cubes.",
+        "Season with spices.",
+        "Deep fry until golden."
+      ]
+    },
+    {
+      "id": "11",
+      "title": "Beef Tacos",
+      "description": "Mexican tacos with seasoned beef, cheese, and veggies.",
+      "image": "https://www.dessertfortwo.com/wp-content/uploads/2019/06/Taco-Meat-Recipe-3-720x720.jpg",
+      "ingredients": ["Taco shells", "Beef", "Cheese", "Lettuce", "Salsa"],
+      "steps": [
+        "Cook beef with taco seasoning.",
+        "Fill shells with beef and toppings."
+      ]
+    },
+    {
+      "id": "12",
+      "title": "Pad Thai",
+      "description": "Stir-fried rice noodles with shrimp, peanuts, and lime.",
+      "image": "https://inquiringchef.com/wp-content/uploads/2023/02/Authentic-Pad-Thai_square-1908.jpg",
+      "ingredients": ["Rice noodles", "Shrimp", "Peanuts", "Eggs", "Bean sprouts"],
+      "steps": [
+        "Soak noodles.",
+        "Stir-fry shrimp and vegetables.",
+        "Add noodles, sauce, and eggs.",
+        "Top with peanuts and lime."
+      ]
+    },
+    {
+      "id": "13",
+      "title": "Moi Moi",
+      "description": "A Nigerian steamed bean pudding made from blended beans.",
+      "image": "https://pulses.org/images/com_yoorecipe/422/moi-moi-rollup.jpg",
+      "ingredients": ["Black-eyed peas", "Onions", "Pepper", "Palm oil"],
+      "steps": [
+        "Blend beans with spices.",
+        "Pour mixture into wraps or bowls.",
+        "Steam until firm."
+      ]
+    },
+    {
+      "id": "14",
+      "title": "Falafel",
+      "description": "Middle Eastern deep-fried chickpea balls.",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1Nd23PfoRGbYtnqjwW17ChQBFCcyghBzRjw&s",
+      "ingredients": ["Chickpeas", "Onion", "Garlic", "Spices", "Parsley"],
+      "steps": [
+        "Blend chickpeas and spices.",
+        "Form into balls.",
+        "Deep fry until crispy."
+      ]
+    },
+    {
+      "id": "15",
+      "title": "Ugali with Sukuma Wiki",
+      "description": "Kenyan staple of maize flour porridge served with collard greens.",
+      "image": "https://baismag.com/wp-content/uploads/2020/12/whatsapp-image-2020-12-20-at-16.12.52.jpeg?w=2400",
+      "ingredients": ["Maize flour", "Water", "Collard greens", "Onions"],
+      "steps": [
+        "Boil water and stir in maize flour.",
+        "Cook until stiff.",
+        "Serve with sautéed greens."
+      ]
+    },
+    {
+      "id": "16",
+      "title": "Butter Chicken",
+      "description": "Creamy Indian chicken curry with butter and spices.",
+      "image": "https://sugarspunrun.com/wp-content/uploads/2025/04/Butter-chicken-1-of-1.jpg",
+      "ingredients": ["Chicken", "Tomatoes", "Cream", "Butter", "Spices"],
+      "steps": [
+        "Cook chicken with spices.",
+        "Simmer in tomato sauce and cream.",
+        "Serve with naan or rice."
+      ]
+    },
+    {
+      "id": "17",
+      "title": "Ratatouille",
+      "description": "French vegetable stew with eggplant, zucchini, and peppers.",
+      "image": "https://cdn.loveandlemons.com/wp-content/uploads/2024/07/ratatouille.jpg",
+      "ingredients": ["Eggplant", "Zucchini", "Tomatoes", "Peppers", "Onions"],
+      "steps": [
+        "Slice vegetables.",
+        "Layer in dish with sauce.",
+        "Bake until tender."
+      ]
+    },
+    {
+      "id": "18",
+      "title": "Ewa Agoyin",
+      "description": "Nigerian mashed beans with spicy palm oil sauce.",
+      "image": "https://theafrikanstore.com/cdn/shop/articles/Sisi_Jemimah_143ff8cc-494d-424c-9133-873bfa17aea2_1399x.jpg?v=1688626501",
+      "ingredients": ["Beans", "Palm oil", "Onions", "Chili peppers"],
+      "steps": [
+        "Cook and mash beans.",
+        "Prepare spicy palm oil sauce.",
+        "Serve together."
+      ]
+    },
+    {
+      "id": "19",
+      "title": "Pho",
+      "description": "Vietnamese noodle soup with beef and herbs.",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvYAz0icMiUR3tykShgvLEI1gfm1oHd-OyTa37mXYJmN_vKS2mGN2TRGpuv6Q8FL7WmwA&usqp=CAU",
+      "ingredients": ["Rice noodles", "Beef", "Onions", "Star anise", "Cilantro"],
+      "steps": [
+        "Simmer broth with spices.",
+        "Add noodles and beef.",
+        "Top with herbs."
+      ]
+    },
+    {
+      "id": "20",
+      "title": "Banku with Tilapia",
+      "description": "A Ghanaian dish of fermented corn dough with grilled fish.",
+      "image": "https://miaskitchengh.com/wp-content/uploads/2024/12/Screenshot-2024-12-06-001823.png",
+      "ingredients": ["Corn dough", "Cassava dough", "Tilapia", "Pepper sauce"],
+      "steps": [
+        "Cook corn and cassava dough into banku.",
+        "Grill tilapia with spices.",
+        "Serve with pepper sauce."
+      ]
+    }
+  ]
+  

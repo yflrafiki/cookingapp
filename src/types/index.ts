@@ -25,5 +25,15 @@ export interface Recipe {
   description: string;
   image: string;
   ingredients?: string[];
+  steps?: string[] | string;
+}
+
+export interface Video {
+  id: string;
+  title: string;
+  description: string;
+  videoUrl: string;  
+  thumbnail: string;
+  ingredients?: string[];
   steps?: string[];
 }

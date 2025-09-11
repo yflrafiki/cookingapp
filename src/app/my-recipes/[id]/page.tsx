@@ -22,14 +22,14 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useAppContext } from '@/context/AppContext';
-import { ChevronLeft, Trash2, Camera, CheckSquare } from 'lucide-react';
+import { ChevronLeft, Trash2, Camera, CheckSquare , Loader2 } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useGetRecipe , useUpdateRecipe , useDeleteRecipe } from '@/hooks/use-recipes';
 import { set } from 'date-fns';
 
 function EditRecipePageLoader() {
     return (
-        <div className="flex flex-col h-full bg-background space-y-4">
+        <div className="flex flex-col h-full bg-background space-y-4 p-4">
             <header className="flex items-center justify-between">
                 <Skeleton className="h-8 w-48" />
                 <div className="flex items-center gap-2">
@@ -81,6 +81,7 @@ export default function EditRecipePage() {
       setIsLoading(false);
     }).catch(() => {
         setIsLoading(false);
+        router.push("my-recipes")
     });
 
   }
@@ -190,7 +191,7 @@ export default function EditRecipePage() {
   }
 
   return (
-    <div className="flex flex-col h-full bg-background space-y-4">
+    <div className="flex flex-col h-full bg-background space-y-4 px-4 py-4">
        <header className="flex items-center justify-between">
          <h1 className="font-headline text-2xl font-semibold text-foreground">Edit Recipe</h1>
          <div className="flex items-center gap-2">
@@ -257,6 +258,7 @@ export default function EditRecipePage() {
                             alt="Recipe preview" 
                             width={100} 
                             height={100} 
+                            unoptimized
                             className="rounded-[5px] object-cover h-24 w-24"
                             data-ai-hint="recipe image"
                         />
@@ -275,7 +277,11 @@ export default function EditRecipePage() {
               <Button onClick={handleSave} 
               disabled={isLoading}
               className='ml-[10px] rounded-[5px] text-white disabled:opacity-50'>
-                {isLoading ? "Updating..." : "Update Recipe"}
+                {isLoading ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  "Update Recipe"
+                )}
               </Button>
               <button onClick={() => fileInputRef.current?.click()} className="text-muted-foreground hover:text-primary p-4">
                 <Camera className="h-6 w-6" />
