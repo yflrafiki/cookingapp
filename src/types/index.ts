@@ -20,14 +20,29 @@ export interface Action {
 
 export interface Recipe {
   dataAiHint: any;
-  steps: any;
   id: string;
   title: string;
   description: string;
   image: string;
-  rating?: number;
-  cookTime?: string;
-  difficulty?: 'Easy' | 'Medium' | 'Hard';
-  layout?: 'list' | 'grid' | 'compact';
   ingredients?: string[];
+  steps?: string[] | string;
+}
+
+export interface Video {
+  id: string;
+  title: string;
+  description: string;
+  videoUrl: string;  
+  thumbnail: string;
+  ingredients?: string[];
+  steps?: string[];
+}
+
+
+export interface Message {
+  id: string;
+  content: string | object;
+  role: 'user' | 'assistant';
+  timestamp: Date; 
+  type : 'text' | 'rich' 
 }

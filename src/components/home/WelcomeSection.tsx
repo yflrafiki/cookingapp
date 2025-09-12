@@ -1,12 +1,14 @@
 
 'use client';
 
-import { Mic, Square } from 'lucide-react';
+import { Mic, Square , SendHorizonal } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { useState, useRef, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { useRouter } from 'next/navigation';
+import { useAppContext } from '@/context/AppContext';
 
 // Type definitions for the Web Speech API
 interface SpeechRecognitionEvent extends Event {
@@ -62,6 +64,8 @@ export default function WelcomeSection() {
   const [hasMicPermission, setHasMicPermission] = useState<boolean | null>(null);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const { toast } = useToast();
+  const router = useRouter();
+  const { userName } = useAppContext();
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -154,24 +158,51 @@ export default function WelcomeSection() {
     }
   };
 
+
+  function handleConversation(){
+
+
+    localStorage.setItem("baseConversation" , JSON.stringify({
+      id : new Date().valueOf() , 
+      message : text 
+    }))
+
+    router.push(`/culina`)
+
+
+  }
+
   return (
     <section className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold tracking-tight font-headline md:text-3xl">
-        Welcome,
+      <h1 className="text-2xl font-bold tracking-tight font-headline md:text-3xl text-foreground">
+        Welcome{userName ? ` ${userName}` : ''},
         <br />
         What would you like to cook?
       </h1>
       <div className="relative h-[10rem] mt-[2rem]">
         <Textarea
+          id="StartCulinar"
           placeholder="Tell me what you have and I'll show you what to cook"
-          className="w-full h-full rounded-2xl bg-[#FFFEFE] pr-10 pl-4 py-3 resize-none min-h-[6rem]"
+          className="w-full h-full rounded-2xl bg-card pr-10 pl-4 py-3 resize-none min-h-[6rem] text-foreground"
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
+        {
+
+          text && !isRecording ? 
+          <button
+          onClick={handleConversation}
+          className="absolute right-4 bottom-4 h-5 w-5 text-muted-foreground"
+          aria-label="send"
+        >
+
+          <SendHorizonal />
+        </button>
+          :
         <button
           onClick={handleMicClick}
           className={cn(
-            "absolute right-3 bottom-3 h-5 w-5 text-muted-foreground",
+            "absolute right-4 bottom-4 h-5 w-5 text-muted-foreground",
             isRecording && "text-primary animate-pulse",
             hasMicPermission === false && "cursor-not-allowed text-destructive/50"
             )}
@@ -180,6 +211,7 @@ export default function WelcomeSection() {
         >
           {isRecording ? <Square /> : <Mic />}
         </button>
+        }
       </div>
       {hasMicPermission === false && (
         <Alert variant="destructive">

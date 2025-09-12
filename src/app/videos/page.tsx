@@ -1,161 +1,414 @@
-
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { ThumbsUp, Heart, Share2, Download, PlayCircle } from "lucide-react";
+import { MessageCircle, X, Heart, Share2, ThumbsUp , ReceiptText , Loader2 } from "lucide-react";
 import Image from "next/image";
 import { cn } from '@/lib/utils';
+import { getVideos } from './actions';
+import { Video as VideoType } from '@/types';
 
-const videos = [
-  {
-    id: '1',
-    title: 'Mastering the Art of Sourdough',
-    description: 'A comprehensive guide to baking the perfect sourdough bread from scratch. Learn the techniques for a crispy crust and a chewy crumb.',
-    thumbnail: 'https://media.istockphoto.com/id/1216269846/photo/man-holding-beautiful-loaf-of-sourdough-bread.webp?a=1&b=1&s=612x612&w=0&k=20&c=2bZBi0H4Uhwv4pCvRg4FLmzBw5hJlpwLuZL3f9dhxLw=',
-    duration: '15:23',
-    dataAiHint: 'sourdough bread'
-  },
-  {
-    id: '2',
-    title: 'Quick & Healthy Weeknight Dinners',
-    description: 'Five easy and nutritious dinner recipes that you can whip up in under 30 minutes. Perfect for busy weeknights!',
-    thumbnail: 'https://media.istockphoto.com/id/1182477530/photo/baked-spicy-chicken-breast-with-sweet-pepper-and-rice-delicious-mexican-style-lunch-on-a.webp?a=1&b=1&s=612x612&w=0&k=20&c=FVJGPLrKQt5yphdNez0TM3VSXHFS1r6fQ9GLDY0sZlM=',
-    duration: '10:05',
-    dataAiHint: 'healthy dinner'
-  },
-  {
-    id: '3',
-    title: 'The Ultimate Chocolate Cake',
-    description: 'Indulge your sweet tooth with this decadent and moist chocolate cake recipe. A guaranteed crowd-pleaser for any occasion.',
-    thumbnail: 'https://plus.unsplash.com/premium_photo-1722686428300-079b0f62182c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fFRoZSUyMFVsdGltYXRlJTIwQ2hvY29sYXRlJTIwQ2FrZSUyQyUyMEluZHVsZ2UlMjB5b3VyJTIwc3dlZXQlMjB0b290aCUyMHdpdGglMjB0aGlzJTIwZGVjYWRlbnQlMjBhbmQlMjBtb2lzdCUyMGNob2NvbGF0ZSUyMGNha2UlMjByZWNpcGUuJTIwQSUyMGd1YXJhbnRlZWQlMjBjcm93ZCUyMHBsZWFzZXIlMjBmb3IlMjBhbnklMjBvY2Nhc2lvbi58ZW58MHx8MHx8fDA%3D',
-    duration: '8:45',
-    dataAiHint: 'chocolate cake'
-  },
-  {
-    id: '4',
-    title: 'Exploring Street Food in Thailand',
-    description: 'Join us on a culinary journey through the vibrant street food scene of Bangkok, from Pad Thai to Mango Sticky Rice.',
-    thumbnail: 'https://media.istockphoto.com/id/1055927418/photo/chinese-vegetarian-festival-in-bangkok-thailand-asia-vegetarian-traditional-street-food.webp?a=1&b=1&s=612x612&w=0&k=20&c=3bGvBzXtAZWs3s0XxLAphuGN6kADKhKQwLFlL4yCXVk=',
-    duration: '22:18',
-    dataAiHint: 'thai street food'
-  },
-    {
-    id: '5',
-    title: 'Perfecting Your Pasta Carbonara',
-    description: 'Learn the authentic Italian way to make a creamy, delicious Pasta Carbonara with just a few simple ingredients.',
-    thumbnail: 'https://media.istockphoto.com/id/700660724/photo/italian-pasta-carbonara.webp?a=1&b=1&s=612x612&w=0&k=20&c=0Id5uUEv6NwtkOV4FICKj3NMudkwBz4EoyNdjxhIP8M=',
-    duration: '12:50',
-    dataAiHint: 'pasta carbonara'
-  },
-];
 
-type Video = typeof videos[0];
+
+
+
 
 export default function VideosPage() {
-    const [selectedVideo, setSelectedVideo] = useState(videos[0]);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [isRecipieOpen, setIsRecipieOpen] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isUserInteracting, setIsUserInteracting] = useState(false);
+  const [autoplayEnabled, setAutoplayEnabled] = useState(true);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [videoLoadingStates, setVideoLoadingStates] = useState<boolean[]>([]);
+  
+  const containerRef = useRef<HTMLDivElement>(null);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const intersectionObserverRef = useRef<IntersectionObserver | null>(null);
+  
+  const [loading, setLoading] = useState(true);
+  const [videos, setVideos] = useState<VideoType[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  
+  const currentVideo = videos[currentVideoIndex];
+
+  useEffect(() => {
+    getVideos().then((data) => {
+      setVideos(data);
+      setVideoLoadingStates(new Array(data.length).fill(true));
+      setLoading(false);
+      setError(null);
+    }).catch((error) => {
+      console.error(error);
+      setLoading(false);
+      setError(error);
+    });
+  }, []);
+
+
+
+  // Enhanced scroll handling with Intersection Observer
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container || videos.length === 0) return;
+
+    // Clear previous timeout
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current);
+    }
+
+    const handleScroll = () => {
+      setIsScrolling(true);
+      
+      // Clear previous timeout
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      
+      // Set timeout to detect when scrolling stops
+      scrollTimeoutRef.current = setTimeout(() => {
+        setIsScrolling(false);
+      }, 150);
+
+      const scrollTop = container.scrollTop;
+      const videoHeight = window.innerHeight;
+      const newIndex = Math.round(scrollTop / videoHeight);
+      
+      if (newIndex !== currentVideoIndex && newIndex >= 0 && newIndex < videos.length) {
+        setCurrentVideoIndex(newIndex);
+        setIsUserInteracting(false); // Reset user interaction when scrolling
+      }
+    };
+
+    // Set up Intersection Observer for better video detection
+    const observerOptions = {
+      root: container,
+      rootMargin: '-10% 0px -10% 0px', // Only trigger when video is mostly visible
+      threshold: 0.5
+    };
+
+    intersectionObserverRef.current = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const videoIndex = parseInt(entry.target.getAttribute('data-video-index') || '0');
+          if (videoIndex !== currentVideoIndex) {
+            setCurrentVideoIndex(videoIndex);
+          }
+        }
+      });
+    }, observerOptions);
+
+    // Observe all video containers
+    const videoContainers = container.querySelectorAll('[data-video-index]');
+    videoContainers.forEach(container => {
+      intersectionObserverRef.current?.observe(container);
+    });
+
+    container.addEventListener('scroll', handleScroll, { passive: true });
+    
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      if (intersectionObserverRef.current) {
+        intersectionObserverRef.current.disconnect();
+      }
+    };
+  }, [videos.length, currentVideoIndex]);
+
+  // Enhanced video autoplay with preloading and better controls
+  useEffect(() => {
+    if (videos.length === 0) return;
+
+    const playCurrentVideo = async () => {
+      const currentVideo = videoRefs.current[currentVideoIndex];
+      if (!currentVideo) return;
+
+      try {
+        // Preload current video
+        currentVideo.load();
+        
+        // Play if autoplay is enabled and user isn't interacting
+        if (autoplayEnabled && !isUserInteracting && !isScrolling) {
+          await currentVideo.play();
+          setIsPlaying(true);
+        }
+      } catch (error) {
+        console.error('Error playing video:', error);
+        setIsPlaying(false);
+      }
+    };
+
+    // Pause all other videos
+    videoRefs.current.forEach((video, index) => {
+      if (video && index !== currentVideoIndex) {
+        video.pause();
+        video.currentTime = 0; // Reset to beginning
+      }
+    });
+
+    // Play current video
+    playCurrentVideo();
+
+    // Preload adjacent videos for better performance
+    const preloadAdjacentVideos = () => {
+      const prevIndex = currentVideoIndex - 1;
+      const nextIndex = currentVideoIndex + 1;
+      
+      [prevIndex, nextIndex].forEach(index => {
+        if (index >= 0 && index < videos.length) {
+          const video = videoRefs.current[index];
+          if (video && video.readyState < 3) { // HAVE_FUTURE_DATA
+            video.preload = 'metadata';
+            video.load();
+          }
+        }
+      });
+    };
+
+    preloadAdjacentVideos();
+  }, [currentVideoIndex, autoplayEnabled, isUserInteracting, isScrolling, videos.length]);
+
+  // Handle video loading states
+  const handleVideoLoad = (index: number) => {
+    setVideoLoadingStates(prev => {
+      const newStates = [...prev];
+      newStates[index] = false;
+      return newStates;
+    });
+  };
+
+  const handleVideoClick = () => {
+    const currentVideo = videoRefs.current[currentVideoIndex];
+    if (!currentVideo) return;
+
+    setIsUserInteracting(true);
+    
+    if (isPlaying) {
+      currentVideo.pause();
+      setIsPlaying(false);
+    } else {
+      currentVideo.play().catch(console.error);
+      setIsPlaying(true);
+    }
+  };
+
+  const toggleAutoplay = () => {
+    setAutoplayEnabled(prev => !prev);
+    if (!autoplayEnabled) {
+      // If enabling autoplay, play current video
+      const currentVideo = videoRefs.current[currentVideoIndex];
+      if (currentVideo && !isPlaying) {
+        currentVideo.play().catch(console.error);
+        setIsPlaying(true);
+      }
+    }
+  };
+
+  const scrollToVideo = (index: number) => {
+    const container = containerRef.current;
+    if (container) {
+      container.scrollTo({
+        top: index * window.innerHeight,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const nextVideo = () => {
+    if (currentVideoIndex < videos.length - 1) {
+      scrollToVideo(currentVideoIndex + 1);
+    }
+  };
+
+  const prevVideo = () => {
+    if (currentVideoIndex > 0) {
+      scrollToVideo(currentVideoIndex - 1);
+    }
+  };
+
+
+
+  if (loading) {  
+    return <div className="flex justify-center items-center h-full">
+      <Loader2 className="animate-spin" />
+    </div>
+  }
+  
+  if (error) {
+    return <div className="flex justify-center items-center h-full
+    flex-col gap-4">
+      <p className="text-foreground w-[70%] text-center">A network error occurred. Please try again later.</p>
+      <Button variant="outline"
+      className='rounded-[5px]'
+       onClick={() => window.location.reload()}>Reload</Button>
+    </div>
+  }
 
   return (
-    <div className="md:space-y-6 h-full">
-      {/* Mobile view: Fullscreen story-style player */}
-       <div className="md:hidden h-screen w-screen fixed inset-0 z-0">
-         <Image
-            src="/video.png"
-            alt={selectedVideo.title}
-            fill
-            objectFit="cover"
-            className="h-full w-full"
-            data-ai-hint={selectedVideo.dataAiHint}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-        <div className="absolute right-4 bottom-24 flex flex-col items-center gap-4">
-            <Button variant="ghost" size="icon" className="text-white h-12 w-12"><ThumbsUp className="h-7 w-7" /></Button>
-            <Button variant="ghost" size="icon" className="text-white h-12 w-12"><Heart className="h-7 w-7" /></Button>
-            <Button variant="ghost" size="icon" className="text-white h-12 w-12"><Share2 className="h-7 w-7" /></Button>
-            <Button variant="ghost" size="icon" className="text-white h-12 w-12"><Download className="h-7 w-7" /></Button>
-        </div>
-         <div className="absolute left-4 bottom-24 text-white z-10 max-w-[calc(100%-6rem)]">
-          <h2 className="font-bold text-lg">{selectedVideo.title}</h2>
-          <p className="text-sm text-white/80 line-clamp-2">{selectedVideo.description}</p>
-        </div>
+    <div className="relative w-full h-screen overflow-hidden bg-black">
+      {/* Video Container */}
+      <div
+        ref={containerRef}
+        className="h-full overflow-y-auto snap-y snap-mandatory scrollbar-hide"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
+        {videos.map((video, index) => (
+          <div
+            key={video.id}
+            data-video-index={index}
+            className="relative w-full h-[100%] snap-start snap-always flex items-center justify-center"
+          >
+            {/* Loading Overlay */}
+            {videoLoadingStates[index] && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-30">
+                <Loader2 className="w-8 h-8 text-white animate-spin" />
+              </div>
+            )}
+
+            {/* Video Element */}
+            <video
+              ref={(el) => { videoRefs.current[index] = el; }}
+              className="w-full h-full object-contain"
+              loop
+              playsInline
+              poster={video.thumbnail}
+              onClick={handleVideoClick}
+              onLoadedData={() => handleVideoLoad(index)}
+              onError={() => handleVideoLoad(index)}
+              preload="metadata"
+            >
+              <source src={video.videoUrl} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+
+            {/* Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"
+              onClick={handleVideoClick}
+            />
+
+            {/* Bottom Left Text Overlay */}
+            <div className="absolute bottom-0 left-0 right-0 p-6 pb-[120px] text-white z-10">
+              <div className="max-w-[calc(100%-80px)]">
+                <h2 className="text-2xl font-bold mb-2 line-clamp-1">{video.title}</h2>
+                <p className="text-sm text-white/90 line-clamp-3 leading-relaxed">
+                  {video.description}
+                </p>
+              </div>
+            </div>
+
+            {/* Right Side Action Bar */}
+            <div className="absolute right-4 bottom-20 flex flex-col pb-[100px] items-center gap-4 z-10">
+              {/* Autoplay Toggle */}
+              <div className="flex flex-col items-center gap-1">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={cn(
+                    "h-12 w-12 rounded-full backdrop-blur-sm border text-white hover:bg-black/40",
+                    autoplayEnabled 
+                      ? "bg-primary/20 border-primary/50" 
+                      : "bg-black/20 border-white/20"
+                  )}
+                  onClick={toggleAutoplay}
+                >
+                  <div className={cn(
+                    "w-6 h-6 rounded-full border-2 transition-colors",
+                    autoplayEnabled ? "bg-primary border-primary" : "bg-transparent border-white"
+                  )}>
+                    {autoplayEnabled && (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <div className="w-2 h-2 bg-white rounded-full" />
+                      </div>
+                    )}
+                  </div>
+                </Button>
+                <span className="text-xs text-white">Autoplay</span>
+              </div>
+
+              {/* Comment/Details Button */}
+              <div className="flex flex-col items-center gap-1">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-12 w-12 rounded-full bg-black/20 backdrop-blur-sm border border-white/20 text-white hover:bg-black/40"
+                  onClick={() => setIsRecipieOpen(true)}
+                >
+                  <ReceiptText className="h-6 w-6" />
+                </Button>
+                <span className="text-xs text-white">Recipe</span>
+              </div>
+            </div>
+
+            {/* Play/Pause Overlay */}
+            {!isPlaying && index === currentVideoIndex && (
+              <div className="absolute inset-0 flex items-center justify-center z-20">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-20 w-20 rounded-full bg-black/30 backdrop-blur-sm border border-white/30 text-white hover:bg-black/50"
+                  onClick={handleVideoClick}
+                >
+                  <div className="w-0 h-0 border-l-[16px] border-l-white border-y-[12px] border-y-transparent ml-1" />
+                </Button>
+              </div>
+            )}
+          </div>
+        ))}
       </div>
 
+      {/* Comments/Details Panel */}
+      {isRecipieOpen && (
+        <DetailsPanel
+          video={currentVideo}
+          onClose={() => setIsRecipieOpen(false)}
+        />
+      )}
+    </div>
+  );
+}
 
-      {/* Desktop view */}
-      <div className="hidden md:flex flex-col h-full space-y-6">
-        <header className="flex items-center justify-between">
-            <h1 className="font-headline text-3xl">Videos</h1>
-        </header>
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-10 gap-8 min-h-0">
-            {/* Main Video Section */}
-            <div className="lg:col-span-7 flex flex-col gap-4">
-                <Card className="overflow-hidden shadow-lg w-full aspect-video relative group">
-                <Image
-                    src={selectedVideo.thumbnail}
-                    alt={selectedVideo.title}
-                    fill
-                    objectFit="cover"
-                    data-ai-hint={selectedVideo.dataAiHint}
-                />
-                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                    <PlayCircle className="h-16 w-16 text-white/80 group-hover:text-white group-hover:scale-110 transition-transform" />
-                </div>
-                <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded-md">
-                        {selectedVideo.duration}
-                    </div>
-                </Card>
-                <div className='space-y-3'>
-                    <h2 className="font-headline text-2xl">{selectedVideo.title}</h2>
-                    <p className="text-muted-foreground">{selectedVideo.description}</p>
-                    <div className="flex items-center gap-2 pt-2">
-                        <Button variant="outline" size="sm"><ThumbsUp className="h-4 w-4 mr-2" /> Like</Button>
-                        <Button variant="outline" size="sm"><Heart className="h-4 w-4 mr-2" /> Favorite</Button>
-                        <Button variant="outline" size="sm"><Share2 className="h-4 w-4 mr-2" /> Share</Button>
-                        <Button variant="outline" size="sm"><Download className="h-4 w-4 mr-2" /> Download</Button>
-                    </div>
-                </div>
-            </div>
-            
-            {/* Video Playlist Section */}
-            <div className="lg:col-span-3 flex flex-col gap-4 min-h-0">
-                <h3 className="font-headline text-xl">Up Next</h3>
-                <ScrollArea className="flex-1 lg:h-full pr-4 -mr-4 [mask-image:linear-gradient(to_bottom,transparent,black_5%,black_95%,transparent)] no-scrollbar">
-                    <div className="space-y-4">
-                        {videos.map(video => (
-                            <Card 
-                                key={video.id} 
-                                 className={cn(
-                                    "overflow-hidden hover:bg-muted/50 cursor-pointer transition-all",
-                                    selectedVideo.id === video.id && "border-primary/50"
-                                )}
-                                onClick={() => setSelectedVideo(video)}
-                            >
-                            <CardContent className="p-3 flex items-center gap-4">
-                                    <div className="w-24 h-16 rounded-md overflow-hidden relative shrink-0">
-                                        <Image
-                                            src={video.thumbnail}
-                                            alt={video.title}
-                                            fill
-                                            objectFit="cover"
-                                            data-ai-hint={video.dataAiHint}
-                                        />
-                                        <div className="absolute inset-0 bg-black/30"></div>
-                                        <div className="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1.5 py-0.5 rounded-sm">
-                                            {video.duration}
-                                        </div>
-                                    </div>
-                                    <div className='space-y-1'>
-                                        <h4 className="font-semibold text-sm line-clamp-2">{video.title}</h4>
-                                        <p className="text-xs text-muted-foreground">Playing next</p>
-                                    </div>
-                            </CardContent>
-                            </Card>
-                        ))}
-                    </div>
-                </ScrollArea>
-            </div>
+// Comments Panel Component
+function DetailsPanel({ video, onClose }: { video: VideoType; onClose: () => void }) {
+
+  
+
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm">
+      <div className="absolute right-0 top-0 h-full w-full max-w-md bg-background shadow-2xl pb-[100px]">
+        <div className="flex flex-col h-full">
+          {/* Header */}
+          <div className="flex items-center justify-between p-4 border-b">
+            <h3 className="text-lg font-semibold text-foreground">Recipie Details</h3>
+            <Button variant="ghost" size="icon" onClick={onClose} className='border border-foreground rounded-full'>
+              <X className="h-5 w-5 text-foreground" />
+            </Button>
+          </div>
+
+          {/* Video Info */}
+          <div className="p-4 border-b">
+            <h4 className="font-semibold text-foreground mb-2">{video.title}</h4>
+            <p className="text-sm text-muted-foreground mb-3">{video.description}</p>
+          
+          </div>
+
+          <div className="p-4">
+            {
+              video.steps ? 
+              video.steps.map((step: string, index: number) => (
+                <p key={index} className="text-sm text-muted-foreground mb-3">{step}</p>
+              ))
+              
+              : <></>
+            }
+          
+          </div>
+
+     
         </div>
       </div>
     </div>

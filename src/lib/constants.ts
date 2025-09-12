@@ -1,6 +1,6 @@
 
 import type { Category, Action } from "@/types";
-import { Salad, Cake, Coffee, UtensilsCrossed, Search, Mic, ChefHat, FileText, BookUser } from "lucide-react";
+import { Salad, Cake, Coffee, UtensilsCrossed, Search, Mic, ChefHat, FileText, BookUser , CirclePlus } from "lucide-react";
 
 export const CATEGORIES: Category[] = [
   {
@@ -40,7 +40,7 @@ export const ACTIONS: Action[] = [
   },
   {
     title: "My Recipes",
-    icon: BookUser,
+    icon: FileText,
     backgroundColor: "bg-[#E2B440]",
     href: "/my-recipes",
     borderColor: "border-[#CBB680]",
@@ -57,7 +57,7 @@ export const ACTIONS: Action[] = [
   },
   {
     title: "Add Recipes",
-    icon: FileText,
+    icon: CirclePlus,
     backgroundColor: "bg-[#CA30BA]",
     href: "/add-recipe",
     borderColor: "border-[#A26B9C]",

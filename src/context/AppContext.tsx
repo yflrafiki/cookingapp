@@ -12,13 +12,12 @@ interface AppContextType {
   setTextSize: (value: number) => void;
   highContrast: boolean;
   setHighContrast: (value: boolean) => void;
-  recipes: Recipe[];
-  addRecipe: (recipe: Recipe) => void;
-  updateRecipe: (recipe: Recipe) => void;
-  deleteRecipe: (id: string) => void;
   theme: 'light' | 'dark';
   setTheme: (value: 'light' | 'dark') => void;
-  isLoading: boolean;
+  userName: string;
+  setUserName: (value: string) => void;
+  textScaleMultiplier: number;
+  setTextScaleMultiplier: (value: number) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -28,59 +27,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [textSize, setTextSizeState] = useState(33);
   const [highContrast, setHighContrastState] = useState(false);
   const [theme, setThemeState] = useState<'light' | 'dark'>('light');
-  const [recipes, setRecipes] = useState<Recipe[]>(defaultRecipes);
-  const [isLoading, setIsLoading] = useState(true);
+  const [userName, setUserNameState] = useState('');
+  const [textScaleMultiplier, setTextScaleMultiplierState] = useState(1);
 
-  // Effect for initial loading from localStorage
-  useEffect(() => {
-    try {
-      const storedRecipes = localStorage.getItem('recipes');
-      if (storedRecipes) {
-        const parsed = JSON.parse(storedRecipes);
-        if(Array.isArray(parsed) && parsed.length > 0) {
-          setRecipes(parsed);
-        } else {
-           localStorage.setItem('recipes', JSON.stringify(defaultRecipes));
-           setRecipes(defaultRecipes);
-        }
-      } else {
-        localStorage.setItem('recipes', JSON.stringify(defaultRecipes));
-        setRecipes(defaultRecipes);
-      }
 
-      const storedLargeText = localStorage.getItem('largeText');
-      if (storedLargeText) setLargeTextState(JSON.parse(storedLargeText));
 
-      const storedTextSize = localStorage.getItem('textSize');
-      if (storedTextSize) setTextSizeState(JSON.parse(storedTextSize));
-      
-      const storedHighContrast = localStorage.getItem('highContrast');
-      if (storedHighContrast) setHighContrastState(JSON.parse(storedHighContrast));
-      
-      const storedTheme = localStorage.getItem('theme');
-      if (storedTheme) setThemeState(storedTheme as 'light' | 'dark');
 
-    } catch (e) {
-      console.error("Failed to access or parse localStorage on initial load", e);
-      setRecipes(defaultRecipes);
-    } finally {
-      setIsLoading(false);
-    }
-  // This effect should run only once on mount
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
-  // Effect for saving recipes to localStorage whenever they change
-  useEffect(() => {
-    // We don't save during the initial load
-    if (!isLoading) {
-      try {
-        localStorage.setItem('recipes', JSON.stringify(recipes));
-      } catch (e) {
-        console.error("Failed to save recipes to localStorage", e);
-      }
-    }
-  }, [recipes, isLoading]);
+
 
   const setLargeText = (value: boolean) => {
     setLargeTextState(value);
@@ -101,18 +55,34 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setThemeState(value);
     localStorage.setItem('theme', value);
   };
-  
-  const addRecipe = (recipe: Recipe) => {
-    setRecipes(prevRecipes => [...prevRecipes, recipe]);
+
+  const setUserName = (value: string) => {
+    setUserNameState(value);
+    localStorage.setItem('userName', value);
   };
 
-  const updateRecipe = (updatedRecipe: Recipe) => {
-    setRecipes(prevRecipes => prevRecipes.map(r => r.id === updatedRecipe.id ? updatedRecipe : r));
+  const setTextScaleMultiplier = (value: number) => {
+    setTextScaleMultiplierState(value);
+    localStorage.setItem('textScaleMultiplier', value.toString());
   };
 
-  const deleteRecipe = (id: string) => {
-    setRecipes(prevRecipes => prevRecipes.filter(r => r.id !== id));
-  };
+  // Load settings from localStorage on mount
+  useEffect(() => {
+    const savedUserName = localStorage.getItem('userName');
+    if (savedUserName) {
+      setUserNameState(savedUserName);
+    }
+    
+    const savedTextScaleMultiplier = localStorage.getItem('textScaleMultiplier');
+    if (savedTextScaleMultiplier) {
+      setTextScaleMultiplierState(parseFloat(savedTextScaleMultiplier));
+    }
+  }, []);
+
+  // Apply text scaling multiplier to CSS custom property
+  useEffect(() => {
+    document.documentElement.style.setProperty('--text-scale-multiplier', textScaleMultiplier.toString());
+  }, [textScaleMultiplier]);
 
   const contextValue = useMemo(() => ({
     largeText,
@@ -123,12 +93,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setHighContrast,
     theme,
     setTheme,
-    recipes,
-    addRecipe,
-    updateRecipe,
-    deleteRecipe,
-    isLoading,
-  }), [largeText, textSize, highContrast, theme, recipes, isLoading]);
+    userName,
+    setUserName,
+    textScaleMultiplier,
+    setTextScaleMultiplier,
+  }), [largeText, textSize, highContrast, theme, userName, textScaleMultiplier]);
 
   return (
     <AppContext.Provider value={contextValue}>

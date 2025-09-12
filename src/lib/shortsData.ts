@@ -1,0 +1,117 @@
+// Enhanced shorts video data for the new design
+export const shortsVideos = [
+  {
+    id: 'shorts-1',
+    title: '30-Second Pasta Hack',
+    description: 'Learn this amazing pasta cooking technique that will change your life forever! Perfect al dente every time.',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    thumbnail: 'https://media.istockphoto.com/id/700660724/photo/italian-pasta-carbonara.webp?a=1&b=1&s=612x612&w=0&k=20&c=0Id5uUEv6NwtkOV4FICKj3NMudkwBz4EoyNdjxhIP8M=',
+    likes: 12500,
+    comments: 342,
+    views: '2.1M',
+    chef: 'Chef Marco',
+    chefAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face',
+    category: 'Quick Tips',
+    duration: '0:30'
+  },
+  {
+    id: 'shorts-2',
+    title: 'Perfect Pancake Flip',
+    description: 'Master the art of pancake flipping with this simple technique. No more broken pancakes!',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+    thumbnail: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=500&auto=format&fit=crop&q=60',
+    likes: 8900,
+    comments: 156,
+    views: '1.5M',
+    chef: 'Chef Sarah',
+    chefAvatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face',
+    category: 'Breakfast',
+    duration: '0:45'
+  },
+  {
+    id: 'shorts-3',
+    title: 'Knife Skills Masterclass',
+    description: 'Essential knife techniques every home cook needs to know. Safety first!',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+    thumbnail: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&auto=format&fit=crop&q=60',
+    likes: 15600,
+    comments: 423,
+    views: '3.2M',
+    chef: 'Chef David',
+    chefAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face',
+    category: 'Techniques',
+    duration: '1:20'
+  },
+  {
+    id: 'shorts-4',
+    title: 'Quick Smoothie Bowl',
+    description: 'Healthy breakfast in under 2 minutes! Perfect for busy mornings.',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+    thumbnail: 'https://images.unsplash.com/photo-1511690743698-d9d7f7456c34?w=500&auto=format&fit=crop&q=60',
+    likes: 6700,
+    comments: 89,
+    views: '980K',
+    chef: 'Chef Alex',
+    chefAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face',
+    category: 'Healthy',
+    duration: '1:15'
+  },
+  {
+    id: 'shorts-5',
+    title: 'Garlic Bread Perfection',
+    description: 'The secret to restaurant-quality garlic bread at home. You won\'t believe how easy it is!',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
+    thumbnail: 'https://images.unsplash.com/photo-1572441713132-51c75654db73?w=500&auto=format&fit=crop&q=60',
+    likes: 11200,
+    comments: 267,
+    views: '1.8M',
+    chef: 'Chef Maria',
+    chefAvatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face',
+    category: 'Sides',
+    duration: '0:55'
+  },
+  {
+    id: 'shorts-6',
+    title: 'Egg Poaching Made Easy',
+    description: 'Perfect poached eggs every time with this foolproof method. No more broken yolks!',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
+    thumbnail: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500&auto=format&fit=crop&q=60',
+    likes: 9800,
+    comments: 198,
+    views: '1.2M',
+    chef: 'Chef Sarah',
+    chefAvatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face',
+    category: 'Breakfast',
+    duration: '1:10'
+  },
+  {
+    id: 'shorts-7',
+    title: 'Chocolate Chip Cookie Hack',
+    description: 'The secret ingredient that makes your cookies extra chewy and delicious!',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4',
+    thumbnail: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=500&auto=format&fit=crop&q=60',
+    likes: 13400,
+    comments: 312,
+    views: '2.5M',
+    chef: 'Chef Alex',
+    chefAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face',
+    category: 'Desserts',
+    duration: '0:40'
+  },
+  {
+    id: 'shorts-8',
+    title: 'Rice Cooking Perfection',
+    description: 'Fluffy, perfect rice every single time. The ratio that never fails!',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+    thumbnail: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500&auto=format&fit=crop&q=60',
+    likes: 7600,
+    comments: 134,
+    views: '1.1M',
+    chef: 'Chef Marco',
+    chefAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face',
+    category: 'Basics',
+    duration: '1:00'
+  }
+];
+
+export type ShortsVideoData = typeof shortsVideos[0];

@@ -4,7 +4,7 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Volume2, Loader2, PlayCircle, PauseCircle, ArrowLeft , ChevronLeft } from "lucide-react";
+import { Volume2, Loader2, PlayCircle, PauseCircle, ChevronLeft } from "lucide-react";
 import { useState, useRef, useEffect, AwaitedReactNode, JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal } from "react";
 import { textToSpeech } from "@/ai/flows/text-to-speech";
 import { useToast } from "@/hooks/use-toast";
@@ -12,9 +12,6 @@ import type { Recipe } from "@/types";
 import { useAppContext } from "@/context/AppContext";
 import { useParams, useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useGetRecipe } from "@/hooks/use-recipes";
-import Link from "next/link";
-
 
 function CookingViewLoader() {
     return (
@@ -55,25 +52,27 @@ export default function CookModePage() {
   const [isContentLoading , setIsContentLoading] = useState(true)
   const [recipe, setRecipe] = useState<Recipe | null>(null);
 
-  const getRecipe = useGetRecipe()
+
 
   const recipeId = Array.isArray(params.id) ? params.id[0] : params.id;
 
   useEffect(() => {
 
+    const recipe = localStorage.getItem("fromCulinary")
 
-    getRecipe(recipeId).then((data)=>{
-      setRecipe(data)
-      setIsContentLoading(false)
-    }).catch(()=>{
-         toast({
-        variant: "destructive",
-        title: "Recipe Not Found",
-        description: "Could not find the recipe to cook.",
-      });
-      setIsContentLoading(false)
-      router.back()
-    })
+    if(!recipe){
+        toast({
+            variant: "destructive",
+            title: "Recipe Not Found",
+            description: "Could not find the recipe to cook.",
+          });
+
+          router.back()
+    }
+
+    setRecipe(JSON.parse(recipe))
+    setIsContentLoading(false)
+
 
   }, [params.id]);
 
@@ -127,11 +126,9 @@ export default function CookModePage() {
   
   return (
     <div className="container relative">
-         <Button variant="ghost" size="icon"
-         onClick={()=>router.back()}
-         className="rounded-full
-          mb-4 absolute top-4 right-4 z-10
-          bg-card shadow-sm border" asChild>
+       <Button onClick={()=>router.back()} variant="ghost" size="icon" className="rounded-full
+        mb-4 absolute top-4 right-4 z-10
+         bg-card shadow-sm border" asChild>
             <div>
               <ChevronLeft className="h-6 w-6 text-foreground" />
             </div>
@@ -145,9 +142,7 @@ export default function CookModePage() {
           style={{marginTop : 0}}
            height={400} className="w-full h-auto max-h-[400px]
             object-cover" data-ai-hint={recipe.dataAiHint} />
-           <div className="absolute bottom-4 right-4">
-            
-           </div>
+           
         </CardHeader>
         <CardContent className="p-6">
           <div className="flex justify-between items-start">
