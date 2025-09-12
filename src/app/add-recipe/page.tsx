@@ -119,7 +119,7 @@ export default function AddRecipePage() {
   return (
     <div className="flex h-full flex-col space-y-4 px-4 py-4">
       <header className="flex items-center justify-between">
-        <h1 className="font-headline text-3xl text-foreground">Add Recipe</h1>
+        <h1 className="font-semibold text-foreground text-2xl">Add Recipe</h1>
         <Button variant="ghost" size="icon" className="rounded-full bg-card shadow-sm border" asChild>
           <Link href="/my-recipes">
             <ChevronLeft className="h-6 w-6 text-foreground"  />

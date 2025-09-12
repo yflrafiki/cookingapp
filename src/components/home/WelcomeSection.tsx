@@ -100,13 +100,7 @@ export default function WelcomeSection() {
             title: 'Microphone Access Denied',
             description: 'Please enable microphone access in your browser settings to use voice search.',
           });
-        } else {
-          toast({
-              variant: 'destructive',
-              title: 'Speech Recognition Error',
-              description: `An error occurred: ${event.error}`,
-          });
-        }
+        } 
         setIsRecording(false);
       };
 
