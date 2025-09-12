@@ -36,13 +36,15 @@ const RECIPE_SCHEMA = {
       ingredients: {
         type: Type.ARRAY,
         items: { type: Type.STRING },
-        nullable: true,
+     
       },
       steps: {
         type: Type.ARRAY,
         items : {type : Type.STRING}
       },
     },
+
+    required : ["title" , "description" , "ingredients" , "steps"]
 
   };
 
@@ -211,16 +213,21 @@ class Culinary {
 
             }
         }
-
-        else return {
+        
+        else {
+            
+            let text = part.text?.replaceAll("*" , "")
+            text = removeMd(part.text)
+            return {
 
             id: (Date.now() + 1).toString(),
-            content : removeMd(part.text) , 
+            content : text , 
             role : "assistant" , 
             timestamp : new Date() , 
             type : "text"
 
         }
+    }
 
 
 
