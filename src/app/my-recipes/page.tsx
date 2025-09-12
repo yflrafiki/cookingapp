@@ -85,11 +85,11 @@ export default function MyRecipesPage() {
   return (
     <div className="space-y-6 h-full px-4 py-4 pb-[15rem]">
       <header className="flex items-center justify-between">
-        <h1 className="font-headline text-3xl">My Recipes</h1>
+        <h1 className="font-headline text-3xl text-foreground">My Recipes</h1>
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="icon" className="rounded-full bg-card shadow-sm border" asChild>
             <Link href="/">
-              <ChevronLeft className="h-6 w-6" />
+              <ChevronLeft className="h-6 w-6 text-foreground" />
             </Link>
           </Button>
         </div>
