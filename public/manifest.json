@@ -1,7 +1,7 @@
 {
     "name": "Culinary Canvas",
     "short_name": "culina",
-    "theme_color": "#35155D",
+    "theme_color": "hsl(150, 55%, 60%)",
     "background_color": "#ffffff",
     "display": "standalone",
     "orientation": "portrait",
