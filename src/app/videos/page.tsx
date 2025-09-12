@@ -272,7 +272,7 @@ export default function VideosPage() {
             {/* Video Element */}
             <video
               ref={(el) => { videoRefs.current[index] = el; }}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
               loop
               playsInline
               poster={video.thumbnail}
