@@ -66,7 +66,7 @@ export default function RecipesPage() {
 
 
   return (
-    <div className="space-y-6 p-4 h-full">
+    <div className="space-y-6 p-4 h-full pb-[10rem]">
       <header className="flex items-center justify-between">
         <h1 className="font-headline text-3xl text-foreground">Recipes</h1>
         <div className="flex items-center gap-2">

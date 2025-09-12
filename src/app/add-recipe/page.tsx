@@ -122,7 +122,7 @@ export default function AddRecipePage() {
         <h1 className="font-headline text-3xl text-foreground">Add Recipe</h1>
         <Button variant="ghost" size="icon" className="rounded-full bg-card shadow-sm border" asChild>
           <Link href="/my-recipes">
-            <ChevronLeft className="h-6 w-6" />
+            <ChevronLeft className="h-6 w-6 text-foreground"  />
           </Link>
         </Button>
       </header>
@@ -141,7 +141,7 @@ export default function AddRecipePage() {
                 className="flex-1 w-full bg-transparent resize-none
                 border-none rounded-[5px]
                  focus:outline-none text-muted-foreground 
-                 min-h-[200px] md:min-h-0"
+                 min-h-[200px] md:min-h-0 pb-[50%]"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
             />

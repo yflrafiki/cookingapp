@@ -14,7 +14,10 @@ interface AppContextType {
   setHighContrast: (value: boolean) => void;
   theme: 'light' | 'dark';
   setTheme: (value: 'light' | 'dark') => void;
-
+  userName: string;
+  setUserName: (value: string) => void;
+  textScaleMultiplier: number;
+  setTextScaleMultiplier: (value: number) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -24,6 +27,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [textSize, setTextSizeState] = useState(33);
   const [highContrast, setHighContrastState] = useState(false);
   const [theme, setThemeState] = useState<'light' | 'dark'>('light');
+  const [userName, setUserNameState] = useState('');
+  const [textScaleMultiplier, setTextScaleMultiplierState] = useState(1);
 
 
 
@@ -50,8 +55,34 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setThemeState(value);
     localStorage.setItem('theme', value);
   };
-  
 
+  const setUserName = (value: string) => {
+    setUserNameState(value);
+    localStorage.setItem('userName', value);
+  };
+
+  const setTextScaleMultiplier = (value: number) => {
+    setTextScaleMultiplierState(value);
+    localStorage.setItem('textScaleMultiplier', value.toString());
+  };
+
+  // Load settings from localStorage on mount
+  useEffect(() => {
+    const savedUserName = localStorage.getItem('userName');
+    if (savedUserName) {
+      setUserNameState(savedUserName);
+    }
+    
+    const savedTextScaleMultiplier = localStorage.getItem('textScaleMultiplier');
+    if (savedTextScaleMultiplier) {
+      setTextScaleMultiplierState(parseFloat(savedTextScaleMultiplier));
+    }
+  }, []);
+
+  // Apply text scaling multiplier to CSS custom property
+  useEffect(() => {
+    document.documentElement.style.setProperty('--text-scale-multiplier', textScaleMultiplier.toString());
+  }, [textScaleMultiplier]);
 
   const contextValue = useMemo(() => ({
     largeText,
@@ -62,7 +93,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setHighContrast,
     theme,
     setTheme,
-  }), [largeText, textSize, highContrast, theme,]);
+    userName,
+    setUserName,
+    textScaleMultiplier,
+    setTextScaleMultiplier,
+  }), [largeText, textSize, highContrast, theme, userName, textScaleMultiplier]);
 
   return (
     <AppContext.Provider value={contextValue}>

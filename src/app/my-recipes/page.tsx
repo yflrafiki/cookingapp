@@ -83,7 +83,7 @@ export default function MyRecipesPage() {
   }
 
   return (
-    <div className="space-y-6 h-full px-4 py-4">
+    <div className="space-y-6 h-full px-4 py-4 pb-[15rem]">
       <header className="flex items-center justify-between">
         <h1 className="font-headline text-3xl">My Recipes</h1>
         <div className="flex items-center gap-2">

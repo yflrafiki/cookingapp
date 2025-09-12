@@ -37,3 +37,12 @@ export interface Video {
   ingredients?: string[];
   steps?: string[];
 }
+
+
+export interface Message {
+  id: string;
+  content: string | object;
+  role: 'user' | 'assistant';
+  timestamp: Date; 
+  type : 'text' | 'rich' 
+}

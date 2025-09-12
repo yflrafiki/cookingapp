@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Volume2, Loader2, PlayCircle, PauseCircle, ArrowLeft } from "lucide-react";
+import { Volume2, Loader2, PlayCircle, PauseCircle, ArrowLeft , ChevronLeft } from "lucide-react";
 import { useState, useRef, useEffect, AwaitedReactNode, JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal } from "react";
 import { textToSpeech } from "@/ai/flows/text-to-speech";
 import { useToast } from "@/hooks/use-toast";
@@ -12,6 +12,7 @@ import { useAppContext } from "@/context/AppContext";
 import { useParams, useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getRecipe } from "../actions";
+import Link from "next/link";
 
 function CookingViewLoader() {
     return (
@@ -119,10 +120,13 @@ export default function CookModePage() {
   
   return (
     <div className="container relative">
-      <Button onClick={() => router.back()} variant="ghost" className="mb-4 absolute top-4 right-1 text-white z-10" >
-        <ArrowLeft className="mr-2 h-4 w-4" />
-        Back to Recipes
-      </Button>
+        <Button onClick={()=>router.back()} variant="ghost" size="icon" className="rounded-full
+        mb-4 absolute top-4 right-4 z-10
+         bg-card shadow-sm border" asChild>
+            <div>
+              <ChevronLeft className="h-6 w-6 text-foreground" />
+            </div>
+        </Button>
       <Card className="overflow-hidden border-none rounded-none shadow-none w-full">
         <CardHeader className="p-0 relative">
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent"></div>
@@ -132,11 +136,7 @@ export default function CookModePage() {
           style={{marginTop : 0}}
            height={400} className="w-full h-auto max-h-[400px] mt-0 object-cover" data-ai-hint={recipe.dataAiHint} />
            <div className="absolute bottom-4 right-4">
-            {audioSrc && (
-              <Button onClick={handlePlayPause} size="icon" className="rounded-full h-12 w-12 bg-primary/80 backdrop-blur-sm hover:bg-primary">
-                {isPlaying ? <PauseCircle className="h-6 w-6" /> : <PlayCircle className="h-6 w-6" />}
-              </Button>
-            )}
+       
            </div>
         </CardHeader>
         <CardContent className="p-6">
@@ -145,13 +145,40 @@ export default function CookModePage() {
               <CardTitle className="font-headline text-3xl">{recipe.title}</CardTitle>
               
             </div>
-             <Button onClick={handleReadAloud} disabled={isLoading} className="text-white rounded-[5px]">
+     
+             <Button onClick={()=>{
+              audioSrc ? handlePlayPause() : handleReadAloud()}}
+               disabled={isLoading} className="text-white rounded-[5px]">
               {isLoading ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Read aloud
+                </>
+              )  :
+
+              audioSrc ? 
+
+                  <>
+                     {isPlaying ? 
+                     <>
+                     <PauseCircle className="h-6 w-6" /> 
+                     Pause 
+                     </>
+                     : 
+                     <>
+                     <PlayCircle className="h-6 w-6" />
+                     Play
+                     </>
+                     }
+                  </>
+              
+              : (
+                <>
                 <Volume2 className="mr-2 h-4 w-4" />
+                Read Aloud
+                </>
               )}
-              Read Aloud
+        
             </Button>
           </div>
 

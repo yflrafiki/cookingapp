@@ -135,7 +135,7 @@ export default function EditRecipePage() {
       ...recipe,
       title,
       description,
-      image : image || recipe.image,
+      image : image ,
     };
 
     await updateRecipe(recipe.id, updatedRecipeData);
@@ -191,7 +191,7 @@ export default function EditRecipePage() {
   }
 
   return (
-    <div className="flex flex-col h-full bg-background space-y-4 px-4 py-4">
+    <div className="flex h-full flex-col space-y-4 px-4 py-4">
        <header className="flex items-center justify-between">
          <h1 className="font-headline text-2xl font-semibold text-foreground">Edit Recipe</h1>
          <div className="flex items-center gap-2">
@@ -231,7 +231,7 @@ export default function EditRecipePage() {
             accept="image/*"
             className="hidden" 
         />
-      <div className="flex flex-1 flex-col space-y-4">
+      <div className="flex flex-1 h-full flex-col space-y-4">
         <Input 
           id="title" 
           value={title} 
@@ -239,7 +239,7 @@ export default function EditRecipePage() {
           onChange={(e) => setTitle(e.target.value)} 
           placeholder="Title"
           />
-        <div className="flex flex-1 flex-col rounded-[5px] border border-border/50 bg-cardspace-y-4 relative">
+         <div className="flex flex-1 flex-col rounded-[5px] border border-border/50 bg-cardspace-y-4 relative">
             <Textarea 
                 id="notes" 
                 value={description} 
@@ -248,7 +248,7 @@ export default function EditRecipePage() {
                 className="flex-1 w-full bg-transparent resize-none
                 border-none rounded-[5px]
                  focus:outline-none text-muted-foreground 
-                 min-h-[200px] md:min-h-0"
+                 min-h-[200px] md:min-h-0 pb-[50%]"
             />
           {image && (
                 <div className="flex flex-wrap gap-2 pt-2 absolute bottom-14 left-0 m-4">

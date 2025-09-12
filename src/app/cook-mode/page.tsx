@@ -86,12 +86,13 @@ export default function MyRecipesPage() {
     <div className="space-y-6 h-full px-4 py-4">
        <header className="flex items-center justify-between">
         <div>
-          <h1 className="font-headline text-3xl">Cook Mode</h1>
-          <p className="text-muted-foreground">Choose a recipe to start your guided cooking session.</p>
+          <h1 className="font-headline text-3xl text-foreground">Cook Mode</h1>
+          <p className="text-muted-foreground w-[95%]">Choose a recipe to start your guided cooking session.</p>
         </div>
-        <Button variant="ghost" size="icon" className="rounded-full bg-card shadow-sm border" asChild>
+        <Button variant="ghost" size="icon" className="rounded-full 
+        bg-card shadow-sm border" asChild>
           <Link href="/">
-            <ChevronLeft className="h-6 w-6" />
+            <ChevronLeft className="h-6 w-6 text-foreground" />
           </Link>
         </Button>
       </header>

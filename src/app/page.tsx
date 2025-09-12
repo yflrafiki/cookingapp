@@ -1,6 +1,7 @@
 
 import WelcomeSection from "@/components/home/WelcomeSection";
 import ActionGrid from "@/components/home/ActionGrid";
+import OnboardingOverlay from "@/components/onboarding/OnboardingOverlay";
 import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
@@ -9,6 +10,7 @@ export default function Home() {
       <WelcomeSection />
       <Separator />
       <ActionGrid />
+      <OnboardingOverlay />
     </div>
   );
 }

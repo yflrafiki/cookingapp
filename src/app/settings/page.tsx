@@ -47,9 +47,16 @@ const SettingItem = ({ icon: Icon, title, description, action }: SettingItemProp
 // ];
 
 export default function SettingsPage() {
-  //  const [largeText, setLargeText] = useState(false);
-  // const [textSize, setTextSize] = useState(33);
-  const { largeText, setLargeText, textSize, setTextSize, theme, setTheme } = useAppContext();
+  const { 
+    largeText, 
+    setLargeText, 
+    textSize, 
+    setTextSize, 
+    theme, 
+    setTheme,
+    textScaleMultiplier,
+    setTextScaleMultiplier
+  } = useAppContext();
   const [voiceGuidance, setVoiceGuidance] = useState(false);
   const [recipeUpdates, setRecipeUpdates] = useState(true);
   const [cookingReminders, setCookingReminders] = useState(false);
@@ -58,8 +65,8 @@ export default function SettingsPage() {
     <div className="space-y-6 px-4 py-4">
       <header className="flex items-center justify-between">
         <div>
-          <h1 className="font-semibold text-foreground text-[24px]">Settings</h1>
-          <p className="text-muted-foreground font-normal text-[12px]">Customize your CookingCompanion experience</p>
+          <h1 className="font-semibold text-foreground text-2xl">Settings</h1>
+          <p className="text-muted-foreground font-normal text-base">Customize your CookingCompanion experience</p>
         </div>
         <Button variant="ghost" size="icon" className="rounded-full bg-card shadow-sm border" asChild>
           <Link href="/">
@@ -84,16 +91,22 @@ export default function SettingsPage() {
                   <Card className="bg-primary/10 border-primary/20">
                     <CardContent className="p-4 text-center">
                       <p 
-                        className={cn(
-                          'transition-all duration-300',
-                        )}
-                        style={{ fontSize: `clamp(1rem, ${1 + (textSize / 100) * 0.5}rem, 2rem)`}}
+                       className=""
                       >
                         &quot;Add 2 cups of flour and mix gently until combined&quot;
                       </p>
                     </CardContent>
                   </Card>
-                  <Slider value={[textSize]} onValueChange={(value) => setTextSize(value[0])} />
+                  <Slider 
+                  min={1}
+                  step={0.00001}
+                  value={[textScaleMultiplier]} 
+                  max={1.1}
+                  onValueChange={(value) => {
+                    console.log(value)
+                    setTextScaleMultiplier(value[0])}} 
+                  
+                  />
                 </div>
               )}
             </div>
@@ -108,6 +121,16 @@ export default function SettingsPage() {
                 />
               }
             />
+         {/* <div className="pb-4 space-y-4">
+                <Card className="bg-primary/10 border-primary/20">
+                  <CardContent className="p-4 text-center">
+                    <p className="text-sm text-muted-foreground mb-2">Preview:</p>
+                    <p className="text-lg font-semibold">Large Heading</p>
+                    <p className="text-base">Regular body text that scales proportionally</p>
+                    <p className="text-sm text-muted-foreground">Small caption text</p>
+                  </CardContent>
+                </Card>
+              </div> */}
             <SettingItem 
               icon={Volume2} 
               title="Voice Guidance" 

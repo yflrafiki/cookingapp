@@ -11,132 +11,197 @@ import { Video as VideoType } from '@/types';
 
 
 
-const cookingVideos = [
-  {
-    id: '1',
-    title: '5-Minute Pasta',
-    description: 'Quick and delicious pasta recipe with garlic, olive oil, and chili flakes. Perfect for weeknights when you need something fast and comforting.',
-    comments: 25000,
-    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-    thumbnail: 'https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=500&auto=format&fit=crop&q=60',
-    likes: 12500,
-    shares: 3200
-  },
-  {
-    id: '2',
-    title: 'Fluffy Pancakes',
-    description: 'Learn the secret to making soft, fluffy pancakes with just 5 ingredients. A perfect breakfast treat topped with syrup and berries.',
-    comments: 18000,
-    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-    thumbnail: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=500&auto=format&fit=crop&q=60',
-    likes: 8900,
-    shares: 2100
-  },
-  {
-    id: '3',
-    title: 'Classic Fried Rice',
-    description: 'Turn leftover rice into a tasty fried rice dish with eggs, veggies, and soy sauce. A family favorite that\'s quick and filling.',
-    comments: 10000,
-    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-    thumbnail: 'https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=500&auto=format&fit=crop&q=60',
-    likes: 6700,
-    shares: 1800
-  },
-  {
-    id: '4',
-    title: 'Perfect Scrambled Eggs',
-    description: 'Master the art of creamy, restaurant-quality scrambled eggs with this foolproof technique. The secret is in the timing and temperature.',
-    comments: 15000,
-    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
-    thumbnail: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500&auto=format&fit=crop&q=60',
-    likes: 11200,
-    shares: 2900
-  },
-  {
-    id: '5',
-    title: 'Homemade Pizza Dough',
-    description: 'Create the perfect pizza dough from scratch with just flour, water, yeast, and salt. Crispy crust with a chewy center every time.',
-    comments: 22000,
-    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
-    thumbnail: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&auto=format&fit=crop&q=60',
-    likes: 15600,
-    shares: 4100
-  }
-];
 
-type Video = typeof cookingVideos[0];
+
 
 export default function VideosPage() {
-
-
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isRecipieOpen, setIsRecipieOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [isUserInteracting, setIsUserInteracting] = useState(false);
+  const [autoplayEnabled, setAutoplayEnabled] = useState(true);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [videoLoadingStates, setVideoLoadingStates] = useState<boolean[]>([]);
+  
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
-
-  const currentVideo = cookingVideos[currentVideoIndex];
-
-
-  const [loading , setLoading] = useState(true)
-  const [videos , setVideos] = useState<VideoType[]>([])
-  const [error , setError] = useState<string | null>(null)
-
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const intersectionObserverRef = useRef<IntersectionObserver | null>(null);
+  
+  const [loading, setLoading] = useState(true);
+  const [videos, setVideos] = useState<VideoType[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  
+  const currentVideo = videos[currentVideoIndex];
 
   useEffect(() => {
     getVideos().then((data) => {
-      setVideos(data)
-      setLoading(false)
-      setError(null)
+      setVideos(data);
+      setVideoLoadingStates(new Array(data.length).fill(true));
+      setLoading(false);
+      setError(null);
     }).catch((error) => {
-      console.error(error)
-      setLoading(false)
-      setError(error)
-    })
-  }, [])
+      console.error(error);
+      setLoading(false);
+      setError(error);
+    });
+  }, []);
 
 
 
-  // Handle scroll to snap to videos
+  // Enhanced scroll handling with Intersection Observer
   useEffect(() => {
     const container = containerRef.current;
-    if (!container) return;
+    if (!container || videos.length === 0) return;
+
+    // Clear previous timeout
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current);
+    }
 
     const handleScroll = () => {
+      setIsScrolling(true);
+      
+      // Clear previous timeout
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      
+      // Set timeout to detect when scrolling stops
+      scrollTimeoutRef.current = setTimeout(() => {
+        setIsScrolling(false);
+      }, 150);
+
       const scrollTop = container.scrollTop;
       const videoHeight = window.innerHeight;
       const newIndex = Math.round(scrollTop / videoHeight);
       
-      if (newIndex !== currentVideoIndex && newIndex >= 0 && newIndex < cookingVideos.length) {
+      if (newIndex !== currentVideoIndex && newIndex >= 0 && newIndex < videos.length) {
         setCurrentVideoIndex(newIndex);
+        setIsUserInteracting(false); // Reset user interaction when scrolling
       }
     };
 
-    container.addEventListener('scroll', handleScroll);
-    return () => container.removeEventListener('scroll', handleScroll);
-  }, [currentVideoIndex]);
+    // Set up Intersection Observer for better video detection
+    const observerOptions = {
+      root: container,
+      rootMargin: '-10% 0px -10% 0px', // Only trigger when video is mostly visible
+      threshold: 0.5
+    };
 
-  // Auto-play current video and pause others
-  useEffect(() => {
-    videoRefs.current.forEach((video, index) => {
-      if (video) {
-        if (index === currentVideoIndex) {
-          video.play().catch(console.error);
-          setIsPlaying(true);
-        } else {
-          video.pause();
+    intersectionObserverRef.current = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const videoIndex = parseInt(entry.target.getAttribute('data-video-index') || '0');
+          if (videoIndex !== currentVideoIndex) {
+            setCurrentVideoIndex(videoIndex);
+          }
         }
+      });
+    }, observerOptions);
+
+    // Observe all video containers
+    const videoContainers = container.querySelectorAll('[data-video-index]');
+    videoContainers.forEach(container => {
+      intersectionObserverRef.current?.observe(container);
+    });
+
+    container.addEventListener('scroll', handleScroll, { passive: true });
+    
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      if (intersectionObserverRef.current) {
+        intersectionObserverRef.current.disconnect();
+      }
+    };
+  }, [videos.length, currentVideoIndex]);
+
+  // Enhanced video autoplay with preloading and better controls
+  useEffect(() => {
+    if (videos.length === 0) return;
+
+    const playCurrentVideo = async () => {
+      const currentVideo = videoRefs.current[currentVideoIndex];
+      if (!currentVideo) return;
+
+      try {
+        // Preload current video
+        currentVideo.load();
+        
+        // Play if autoplay is enabled and user isn't interacting
+        if (autoplayEnabled && !isUserInteracting && !isScrolling) {
+          await currentVideo.play();
+          setIsPlaying(true);
+        }
+      } catch (error) {
+        console.error('Error playing video:', error);
+        setIsPlaying(false);
+      }
+    };
+
+    // Pause all other videos
+    videoRefs.current.forEach((video, index) => {
+      if (video && index !== currentVideoIndex) {
+        video.pause();
+        video.currentTime = 0; // Reset to beginning
       }
     });
-  }, [currentVideoIndex]);
+
+    // Play current video
+    playCurrentVideo();
+
+    // Preload adjacent videos for better performance
+    const preloadAdjacentVideos = () => {
+      const prevIndex = currentVideoIndex - 1;
+      const nextIndex = currentVideoIndex + 1;
+      
+      [prevIndex, nextIndex].forEach(index => {
+        if (index >= 0 && index < videos.length) {
+          const video = videoRefs.current[index];
+          if (video && video.readyState < 3) { // HAVE_FUTURE_DATA
+            video.preload = 'metadata';
+            video.load();
+          }
+        }
+      });
+    };
+
+    preloadAdjacentVideos();
+  }, [currentVideoIndex, autoplayEnabled, isUserInteracting, isScrolling, videos.length]);
+
+  // Handle video loading states
+  const handleVideoLoad = (index: number) => {
+    setVideoLoadingStates(prev => {
+      const newStates = [...prev];
+      newStates[index] = false;
+      return newStates;
+    });
+  };
 
   const handleVideoClick = () => {
     const currentVideo = videoRefs.current[currentVideoIndex];
-    if (currentVideo) {
-      if (isPlaying) {
-        currentVideo.pause();
-        setIsPlaying(false);
-      } else {
+    if (!currentVideo) return;
+
+    setIsUserInteracting(true);
+    
+    if (isPlaying) {
+      currentVideo.pause();
+      setIsPlaying(false);
+    } else {
+      currentVideo.play().catch(console.error);
+      setIsPlaying(true);
+    }
+  };
+
+  const toggleAutoplay = () => {
+    setAutoplayEnabled(prev => !prev);
+    if (!autoplayEnabled) {
+      // If enabling autoplay, play current video
+      const currentVideo = videoRefs.current[currentVideoIndex];
+      if (currentVideo && !isPlaying) {
         currentVideo.play().catch(console.error);
         setIsPlaying(true);
       }
@@ -154,7 +219,7 @@ export default function VideosPage() {
   };
 
   const nextVideo = () => {
-    if (currentVideoIndex < cookingVideos.length - 1) {
+    if (currentVideoIndex < videos.length - 1) {
       scrollToVideo(currentVideoIndex + 1);
     }
   };
@@ -191,11 +256,19 @@ export default function VideosPage() {
         className="h-full overflow-y-auto snap-y snap-mandatory scrollbar-hide"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        {cookingVideos.map((video, index) => (
+        {videos.map((video, index) => (
           <div
             key={video.id}
-            className="relative w-full h-screen snap-start snap-always flex items-center justify-center"
+            data-video-index={index}
+            className="relative w-full h-[100%] snap-start snap-always flex items-center justify-center"
           >
+            {/* Loading Overlay */}
+            {videoLoadingStates[index] && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-30">
+                <Loader2 className="w-8 h-8 text-white animate-spin" />
+              </div>
+            )}
+
             {/* Video Element */}
             <video
               ref={(el) => { videoRefs.current[index] = el; }}
@@ -204,6 +277,9 @@ export default function VideosPage() {
               playsInline
               poster={video.thumbnail}
               onClick={handleVideoClick}
+              onLoadedData={() => handleVideoLoad(index)}
+              onError={() => handleVideoLoad(index)}
+              preload="metadata"
             >
               <source src={video.videoUrl} type="video/mp4" />
               Your browser does not support the video tag.
@@ -226,6 +302,33 @@ export default function VideosPage() {
 
             {/* Right Side Action Bar */}
             <div className="absolute right-4 bottom-20 flex flex-col pb-[100px] items-center gap-4 z-10">
+              {/* Autoplay Toggle */}
+              <div className="flex flex-col items-center gap-1">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={cn(
+                    "h-12 w-12 rounded-full backdrop-blur-sm border text-white hover:bg-black/40",
+                    autoplayEnabled 
+                      ? "bg-primary/20 border-primary/50" 
+                      : "bg-black/20 border-white/20"
+                  )}
+                  onClick={toggleAutoplay}
+                >
+                  <div className={cn(
+                    "w-6 h-6 rounded-full border-2 transition-colors",
+                    autoplayEnabled ? "bg-primary border-primary" : "bg-transparent border-white"
+                  )}>
+                    {autoplayEnabled && (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <div className="w-2 h-2 bg-white rounded-full" />
+                      </div>
+                    )}
+                  </div>
+                </Button>
+                <span className="text-xs text-white">Autoplay</span>
+              </div>
+
               {/* Comment/Details Button */}
               <div className="flex flex-col items-center gap-1">
                 <Button
@@ -236,6 +339,7 @@ export default function VideosPage() {
                 >
                   <ReceiptText className="h-6 w-6" />
                 </Button>
+                <span className="text-xs text-white">Recipe</span>
               </div>
             </div>
 
@@ -268,7 +372,7 @@ export default function VideosPage() {
 }
 
 // Comments Panel Component
-function DetailsPanel({ video, onClose }: { video: Video; onClose: () => void }) {
+function DetailsPanel({ video, onClose }: { video: VideoType; onClose: () => void }) {
 
   
 
@@ -295,7 +399,9 @@ function DetailsPanel({ video, onClose }: { video: Video; onClose: () => void })
           <div className="p-4">
             {
               video.steps ? 
-              video.steps.map((step)=> <p className="text-sm text-muted-foreground mb-3">{step}</p> )
+              video.steps.map((step: string, index: number) => (
+                <p key={index} className="text-sm text-muted-foreground mb-3">{step}</p>
+              ))
               
               : <></>
             }

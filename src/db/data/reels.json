@@ -1,0 +1,253 @@
+[
+  {
+    "id": "1",
+    "title": "Super Quick Creamy Chicken Pasta",
+    "description": "A super quick and easy creamy chicken pasta recipe the whole family will love. Add veggies like spinach or broccoli for extra nutrition.",
+    "videoUrl": "https://github.com/yflrafiki/cookingapp/raw/refs/heads/main/videoplayback%20(2).mp4",
+    "thumbnail": "https://img.youtube.com/vi/oejBWr_6GQo/hqdefault.jpg",
+    "ingredients": [
+      "pasta",
+      "chicken breast",
+      "cream",
+      "garlic",
+      "parmesan cheese",
+      "salt",
+      "pepper"
+    ],
+    "steps": [
+      "Cook pasta until al dente.",
+      "Season chicken and cook in a pan until browned.",
+      "Add garlic and cook for a minute.",
+      "Pour cream and add parmesan, stirring until sauce thickens.",
+      "Combine pasta and sauce, season to taste."
+    ]
+  },
+  {
+    "id": "2",
+    "title": "How to make Pancakes | Fluffy Pancake Recipe",
+    "description": "Learn how to make soft and fluffy pancakes using simple kitchen staples.",
+    "videoUrl": "https://github.com/yflrafiki/cookingapp/raw/refs/heads/main/How%20to%20make%20Pancakes%20_%20Fluffy%20Pancake%20Recipe.mp4",
+    "thumbnail": "https://img.youtube.com/vi/FLd00Bx4tOk/hqdefault.jpg",
+    "ingredients": [
+      "all-purpose flour",
+      "baking powder",
+      "sugar",
+      "milk",
+      "egg",
+      "butter",
+      "salt"
+    ],
+    "steps": [
+      "Mix dry ingredients together.",
+      "Whisk in milk, egg, and melted butter until batter is smooth.",
+      "Heat a griddle or pan and grease lightly.",
+      "Pour batter, cook until bubbles form, flip and cook until golden.",
+      "Serve with syrup or toppings of choice."
+    ]
+  },
+  {
+    "id": "3",
+    "title": "Tuscan-inspired Chicken Pasta",
+    "description": "An easy Tuscan-style chicken pasta with a rich, creamy tomato sauce.",
+    "videoUrl": "https://github.com/yflrafiki/cookingapp/raw/refs/heads/main/This%20is%20based%20off%20my%20most%20popular%20recipe%20on%20YouTube!%20_%20Tuscan%20Chicken%20Pasta.mp4",
+    "thumbnail": "https://img.youtube.com/vi/mjx8zd2uBV8/hqdefault.jpg",
+    "ingredients": [
+      "pasta",
+      "chicken",
+      "tomato sauce",
+      "cream",
+      "spinach",
+      "garlic",
+      "onion",
+      "olive oil",
+      "salt",
+      "pepper"
+    ],
+    "steps": [
+      "Cook pasta according to package directions.",
+      "Sauté chicken until golden, set aside.",
+      "Cook onion & garlic until soft.",
+      "Add tomato sauce and cream; simmer.",
+      "Stir in spinach until wilted.",
+      "Add chicken back in and combine with pasta; season to taste."
+    ]
+  },
+  {
+    "id": "5",
+    "title": "Creamy Cajun Chicken Pasta",
+    "description": "Spiced Cajun chicken with creamy pasta – big flavor in one dish.",
+    "videoUrl": "https://github.com/yflrafiki/cookingapp/raw/refs/heads/main/Creamy%20Cajun%20Chicken%20Pasta%20_%20How%20To%20Make%20Cajun%20Chicken%20Pasta%20(1).mp4",
+    "thumbnail": "https://img.youtube.com/vi/hblIsx6K4UI/hqdefault.jpg",
+    "ingredients": [
+      "penne pasta",
+      "chicken breast",
+      "Cajun seasoning",
+      "heavy cream",
+      "butter",
+      "garlic",
+      "parmesan cheese",
+      "salt"
+    ],
+    "steps": [
+      "Season chicken with Cajun seasoning and cook until browned.",
+      "Cook pasta until al dente, then drain.",
+      "Make sauce: melt butter, cook garlic, add cream and parmesan.",
+      "Add chicken and pasta to sauce, stir to coat.",
+      "Adjust seasoning and serve."
+    ]
+  },
+  {
+    "id": "6",
+    "title": "Creamy Garlic Chicken Pasta | 20 Minute Dinner Ideas",
+    "description": "A fast garlic chicken pasta that you can whip up in 20 minutes — great for quick dinners.",
+    "videoUrl": "https://github.com/yflrafiki/cookingapp/raw/refs/heads/main/Creamy%20Garlic%20Chicken%20Pasta%20_%2020%20Minute%20Dinner%20Ideas.mp4",
+    "thumbnail": "https://img.youtube.com/vi/JG-AlkdzR5Y/hqdefault.jpg",
+    "ingredients": [
+      "pasta",
+      "chicken",
+      "garlic",
+      "olive oil",
+      "heavy cream",
+      "parmesan",
+      "salt",
+      "pepper"
+    ],
+    "steps": [
+      "Cook pasta until al dente.",
+      "Season and cook chicken until done.",
+      "Cook garlic in oil until fragrant.",
+      "Add cream and cheese, stir to make sauce.",
+      "Combine pasta and chicken with the sauce.",
+      "Serve with extra parmesan and garnish."
+    ]
+  },
+  {
+    "id": "7",
+    "title": "The Best Scrambled Eggs You'll Ever Make",
+    "description": "Professional tips to make soft, fluffy scrambled eggs.",
+    "videoUrl": "https://github.com/yflrafiki/cookingapp/raw/refs/heads/main/The%20Best%20Scrambled%20Eggs%20You'll%20Ever%20Make%20(Restaurant-Quality)%20_%20Epicurious%20101.mp4",
+    "thumbnail": "https://img.youtube.com/vi/9-ODDKHRVkA/hqdefault.jpg",
+    "ingredients": [
+      "eggs",
+      "butter",
+      "salt",
+      "pepper",
+      "milk or cream (optional)"
+    ],
+    "steps": [
+      "Crack eggs into a bowl and whisk with salt, pepper, and optional milk/cream.",
+      "Heat a pan with butter over medium-low heat.",
+      "Pour in egg mixture and let set slightly.",
+      "Stir slowly and gently to form large soft curds.",
+      "Remove from heat just before fully cooked—they will continue cooking slightly.",
+      "Serve immediately."
+    ]
+  },
+  {
+    "id": "8",
+    "title": "How to Make the Perfect Bowl of Porridge",
+    "description": "A comforting porridge, easy to digest, great for breakfast or anytime.",
+    "videoUrl": "https://github.com/yflrafiki/cookingapp/raw/refs/heads/main/por.mp4",
+    "thumbnail": "https://img.youtube.com/vi/TbHpNbYVgf8/hqdefault.jpg",
+    "ingredients": [
+      "rolled oats",
+      "water or milk",
+      "salt",
+      "sweetener (honey, sugar, or fruit) optional"
+    ],
+    "steps": [
+      "Combine oats and liquid in a pot.",
+      "Bring to a simmer while stirring occasionally.",
+      "Reduce heat and cook until oats are soft and creamy.",
+      "Season with salt and add sweetener or fruit if desired.",
+      "Serve hot."
+    ]
+  },
+  {
+    "id": "9",
+    "title": "Silky, Savory Chinese Rice Porridge (Congee)",
+    "description": "Comforting congee, easy to eat and digest, with mild flavors.",
+    "videoUrl": "https://github.com/yflrafiki/cookingapp/raw/refs/heads/main/Silky,%20Savory%20Chinese%20Rice%20Porridge%20(Congee)%20(1).mp4",
+    "thumbnail": "https://img.youtube.com/vi/zXotgrBldbk/hqdefault.jpg",
+    "ingredients": [
+      "rice",
+      "water or chicken/vegetable broth",
+      "salt",
+      "ginger (optional)",
+      "scallion (optional)",
+      "shredded chicken or egg (optional)"
+    ],
+    "steps": [
+      "Rinse rice and add to pot with lots of liquid.",
+      "Bring to boil, then reduce to simmer, stirring occasionally.",
+      "Cook until rice breaks down and mixture becomes creamy.",
+      "Add ginger or scallions if using.",
+      "Add optional protein like shredded chicken or egg towards end.",
+      "Adjust salt; serve warm."
+    ]
+  },
+  {
+    "id": "10",
+    "title": "How To Make Scrambled Eggs | Best Scrambled Eggs Recipe",
+    "description": "Detailed method to cook soft, velvety scrambled eggs.",
+    "videoUrl": "https://github.com/yflrafiki/cookingapp/raw/refs/heads/main/How%20to%20Make%20Scrambled%20Eggs%20_%20Best%20Scrambled%20Eggs%20Recipe.mp4",
+    "thumbnail": "https://img.youtube.com/vi/XXHk92_MeZo/hqdefault.jpg",
+    "ingredients": [
+      "eggs",
+      "butter",
+      "salt",
+      "pepper",
+      "milk or cream (optional)"
+    ],
+    "steps": [
+      "Crack eggs and beat lightly with salt, pepper, and optional milk/cream.",
+      "Preheat pan with butter over medium-low heat.",
+      "Add egg mixture; let sit briefly until edges just begin to set.",
+      "Gently stir from edges to center, forming soft curds.",
+      "Remove from heat just before they’re fully set.",
+      "Serve immediately."
+    ]
+  },
+  {
+    "id": "11",
+    "title": "How To Make Porridge | Best Uji Recipe",
+    "description": "Fermented porridge (Uji) – simple, traditional and easily digestible.",
+    "videoUrl": "https://github.com/yflrafiki/cookingapp/raw/refs/heads/main/How%20To%20Make%20Porridge%20_%20Best%20Uji%20Recipe%20_%20Infoods.mp4",
+    "thumbnail": "https://img.youtube.com/vi/-LZ9p3ogo4o/hqdefault.jpg",
+    "ingredients": [
+      "maize flour or millet flour",
+      "water",
+      "sorghum or millet (optional)",
+      "salt",
+      "sugar or sweetener optional"
+    ],
+    "steps": [
+      "Mix flour with a little cold water to make a paste.",
+      "Boil water separately, then add paste while stirring to avoid lumps.",
+      "Reduce heat and stir continuously until thickened.",
+      "Let simmer on low heat for a short time.",
+      "Sweeten if desired, then serve warm."
+    ]
+  },
+  {
+    "id": "12",
+    "title": "4 Quick & Easy PORRIDGE for Breakfast (4 ways)",
+    "description": "Four variations of porridge for different tastes — soft, hearty and nutritious.",
+    "videoUrl": "https://github.com/yflrafiki/cookingapp/raw/refs/heads/main/4%20Quick%20&%20Easy%20PORRIDGE%20for%20Breakfast(4%20ways)%20(1).mp4",
+    "thumbnail": "https://img.youtube.com/vi/e04qkJSuY_k/hqdefault.jpg",
+    "ingredients": [
+      "oat flakes",
+      "water or milk",
+      "fruit or nuts for topping",
+      "salt",
+      "sweetener"
+    ],
+    "steps": [
+      "Prepare base porridge (oats + liquid).",
+      "Cook until desired consistency.",
+      "Portion into bowls.",
+      "Add toppings like fruit or nuts.",
+      "Serve while warm."
+    ]
+  }
+]
