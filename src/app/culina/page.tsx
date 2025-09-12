@@ -263,7 +263,7 @@ export default function CulinaPage() {
                     message.type == "rich" ? <RecipeCard recipe={message.content} />
 
                     :
-                <p className={cn("whitespace-pre-wrap", getTextSizeClass())}>
+                <p className={cn("whitespace-pre-line", getTextSizeClass())}>
                   {message.content}
                 </p>
               }
