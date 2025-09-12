@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import Link from "next/link";
-import { Send, Bot, User, ArrowLeft, Loader2 , ChevronLeft } from 'lucide-react';
+import { Send, Bot, User, ArrowLeft, Loader2 , ChevronLeft , ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Message } from '@/types';
 import { useCulinary } from '@/ai/use-culinary';
@@ -34,20 +34,17 @@ const RecipeCard = ({ recipe }: { recipe: Recipe }) => {
         <div className="block h-full flex flex-col">
             <CardContent className="p-4 flex gap-4 flex-grow">
             <div className="flex-1 space-y-2">
+              <div className="flex flex-row items-center w-full space-between">
                 <CardTitle className="font-headline text-lg">{recipe.title}</CardTitle>
+                <ChevronRight className="h-6 w-6 text-foreground ml-auto" />
+
+              </div>
                 {/* <Separator /> */}
                 <CardDescription className="text-sm text-muted-foreground line-clamp-3 flex-grow">
                 {recipe.description}
                 </CardDescription>
-            </div>{
-                recipe.image && (
-                <div className="flex-shrink-0">
-                    <Image src={recipe.image} 
-                    unoptimized
-                    alt={recipe.title} width={80} height={80} className="w-20 h-20 rounded-lg object-cover" data-ai-hint={recipe.dataAiHint || 'food'} />
-                </div>
-                )
-            }
+            </div>
+            
             </CardContent>
         
 
