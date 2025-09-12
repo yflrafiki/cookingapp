@@ -66,6 +66,8 @@ export default function CulinaPage() {
   const router = useRouter();
   const { theme, textSize, largeText } = useAppContext();
 
+  const baseState = useRef(false)
+
   const {sendMessage ,  loading : isLoading} = useCulinary()
 
   // Scroll to bottom when new messages arrive
@@ -96,7 +98,11 @@ export default function CulinaPage() {
 
     const loadBaseConversation = () => {
 
+      if(baseState.current) return
+      console.log("did")
       try {
+
+        baseState.current = true
         const baseConversation = localStorage.getItem('baseConversation');
         
 
@@ -110,7 +116,6 @@ export default function CulinaPage() {
                 timestamp : new Date()
             }
 
-            setMessages([welcomeMessage])
             
         
             handleSendMessage(conversation.message);
